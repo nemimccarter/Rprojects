@@ -65,11 +65,25 @@ Boston
 
 # b) Make some pairwise scatterplots of the predictors (columns) in this data
 # set. Describe your findings.
+attach(Boston) # so we may access column names as variables
+# Let's take a look at how crime, nitrogen oxides, and home age relate
+pairs(~ crim + nox + age)
+# There appears to be a weak relationship between nox and areas with
+# a high concentration of old homes..
+# Crime appears to experience a spike in areas with a high concentration
+# of old homes, despite being fairly low and steady prior to the spike.
+pairs(~ ptratio + tax + lstat)
+# I see no distinct relationship between the pupil-teacher ratio and full-value
+# property-tax rates. Pupil-teacher ratios seem to be varied for areas with
+# areas with fewer lower-status populations. The ratios present for poorer
+# regions are higher, but their are also far few data points, which may
+# indicate fewer teachers and pupils altogether.
+# Areas with the smallest lower-status populations appear to have a bubble of
+# low tax rates, a gap in the middle, and a few high tax rates. Residents with
+# hight tax rates seem to live in neighborhoods across the spectrum.
 
-pairs(~Boston$crim+Boston$tax)
-boxplot(crime)
 # c) Are any of the predictors associated with per capita crime rate? If so,
-# describe the realtionship
+#    describe the realtionship
 
 # d) Do any of the suburbs of Boston appear to have particularly high crime rates?
 # Tax rates? Pupil-teacher ratios? Comment on the range of each predictor
