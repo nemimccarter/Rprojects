@@ -37,18 +37,15 @@ summary(Elite)
 plot(college$Elite, college$Outstate)
 
 #  v) Use hist() to produce some histograms
-# assigning names to columns
-appsCount = college[,2]
-acceptCount = college[,3]
-enrollCount = college[,4]
-phdCount = college[,13]
+
 # output format
 par(mfrow=c(1,1))
 # some histograms
-hist(OutState)
-hist(appsCount)
-hist(acceptCount)
-
+hist(college$Outstate)
+hist(college$Apps)
+hist(college$Accept)
+hist(college$Enroll)
+hist(college$PhD)
 # 10)
   # a) load data
 library(MASS)
@@ -69,24 +66,7 @@ Boston
 # b) Make some pairwise scatterplots of the predictors (columns) in this data
 # set. Describe your findings.
 
-# for convenience
-crime = Boston[,1]            # per capita crime rate by town
-bigHouseZones = Boston[,2]    # proportion of residential land zoned for lots
-                              # over 25,000 sq.ft
-propIndus = Boston[,3]        # proportion of non-retail business acres per town
-chas = Boston[,4]             # 1 if tract bounds Charles River, 0 o.w.
-nox = Boston[,5]              # nitrogen oxides concentration(parts per 10 million)
-rmsPerDwelling = Boston[,6]   # average number of rooms per dwelling
-oldHomes = Boston[,7]         # proportion of owner-occupied units built pre-1940
-distToWorkCenter = Boston[,8] # weighted mean of distance to 5 employment centers
-radHighways = Boston[,9]      # index of accessibility to radial highways
-tax = Boston[,10]             # full-value property-tax rate per \$10,000
-pupilsPerTeacher = Boston[,11]# pupil-teacher ratio by town
-blackFolks = Boston[,12]      # 1000(BF - 0.63) ^ 2
-                              # where BF is the proportion of black folks by town
-lstat = Boston[,13]           # lower status of the population (percent)
-medv = Boston[,14]            # median value of owner-occupied homes in \$1000s
-pairs(~crime+radHighways, main="crime vs tax")
+pairs(~Boston$crim+Boston$tax)
 boxplot(crime)
 # c) Are any of the predictors associated with per capita crime rate? If so,
 # describe the realtionship
