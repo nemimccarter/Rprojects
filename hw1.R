@@ -25,11 +25,7 @@ pairs(college[,1:10]) # references first 10 columns
 
     # iii) Use plot() to produce side-by-side boxplots
     #      of OutState vs Private
-OutState = college[,8]
-plot(OutState, college[,1])
-    # Note: The book asked for a boxplot with plot(). 
-    #       I think it may want the following:
-boxplot(OutState, college[,1])
+plot(college$Private, college$Outstate)
     # iv) Create qualitative variable Elite by binning Top10perc
 Elite = rep("No",nrow(college))
 Elite[college$Top10perc>50]="Yes"
@@ -38,9 +34,8 @@ college=data.frame(college,Elite)
     # summary() to see how many elite universities there are
 summary(Elite)
     # plot() for side-by-side boxplots of OutState vs Elite
-plot(OutState, Elite)
-    # Note: Once again, I am unsure if by boxplots they mean this:
-boxplot(OutState, Elite)
+plot(college$Elite, college$Outstate)
+
 #  v) Use hist() to produce some histograms
 # assigning names to columns
 appsCount = college[,2]
@@ -91,8 +86,8 @@ blackFolks = Boston[,12]      # 1000(BF - 0.63) ^ 2
                               # where BF is the proportion of black folks by town
 lstat = Boston[,13]           # lower status of the population (percent)
 medv = Boston[,14]            # median value of owner-occupied homes in \$1000s
-pairs(Boston[,3:4])
-
+pairs(~crime+radHighways, main="crime vs tax")
+boxplot(crime)
 # c) Are any of the predictors associated with per capita crime rate? If so,
 # describe the realtionship
 
