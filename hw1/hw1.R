@@ -37,7 +37,6 @@ summary(Elite)
 plot(college$Elite, college$Outstate)
 
 #  v) Use hist() to produce some histograms
-
 # output format
 par(mfrow=c(1,1))
 # some histograms
@@ -81,16 +80,32 @@ pairs(~ ptratio + tax + lstat)
 # Areas with the smallest lower-status populations appear to have a bubble of
 # low tax rates, a gap in the middle, and a few high tax rates. Residents with
 # hight tax rates seem to live in neighborhoods across the spectrum.
-kkkkkkkkkkkkkkkkkkkkk
+
 # c) Are any of the predictors associated with per capita crime rate? If so,
 #    describe the realtionship. 
+pairs(~ medv + crim)
+#No predictors have a textbook correlation with per capita crime.
+# Higher crime rates appear to be associate with lower median value homes.
+pairs (~ dist + crim)
+# Most data points occur at distances closer to employment centers. Further
+# distances have lower per capita crime, but the data also tapers off. This could
+# be a matter of sampling.
+pairs (~ nox + crim)
+# Higher crime rates appear at areas with a rate between 0.6 and 0.8 nitrogen
+# oxide parts per 10 million
 
 # d) Do any of the suburbs of Boston appear to have particularly high crime rates?
 # Tax rates? Pupil-teacher ratios? Comment on the range of each predictor
-
+summary(crim)
+summary(tax)
+summary(ptratio)
 # e) How many of the suburbs in this data set bound the Charles river?
+sum(chas)
+# 35 suburbs bound the Charles River
 
 # f) What is the median pupil-teacher ratio among the towns in this data set?
+summary(ptratio)
+# Median = 19.05 pupils per teacher
 
 # g) Which suburb of Boston has lowest median value of owner-occupied homes?
 # What are the values of the other predictors for that suburb, and how do those
