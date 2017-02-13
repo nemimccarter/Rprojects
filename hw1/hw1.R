@@ -112,7 +112,13 @@ median(ptratio)
 # values compare to the overall ranges for those predictors? Comment on your
 # findings.
 
-identify(min(medv))
+min(medv)
+# I am unsure of how to identify the name or number of this suburb
+
 # h) How many of the suburbs average more than seven rooms per dwelling?
 # More than eight rooms per dwelling? Comment on the suburbs that average more
 # than eight rooms per dwelling
+sum(rm > 7)
+# 64 suburbs average more than seven rooms per dwelling
+sum(rm > 8)
+# 13 suburbs average more than eight rooms per dwelling
