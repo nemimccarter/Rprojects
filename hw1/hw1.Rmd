@@ -21,8 +21,7 @@ library(ggplot2)
 ## Conceptual Questions
 
 
-#### Exercise 2: Identify each as classification or regression, prediction
-                 or inference. Provide n and p
+#### Exercise 2: Identify each as classification or regression, prediction or inference. Provide n and p
     
     (a) We collect a set of data on the top 500 firms in the US. For each
     firm we record profit, number of employees, industry and the
@@ -118,17 +117,181 @@ library(ggplot2)
 ## Applied Questions
 
 #### Exercise 8: 
-(a) add code to the chuck.
-
-
-
+  (a) import data (assumes College.csv is in working directory)
 ```{r}
-
+college = read.csv(file = "College.csv", header = TRUE, sep = ",")
+```
+  
+  (b) print csv table
+```{r}  
+fix(college)
+  # remove uni names from list
+rownames(college) = college[,1]
+fix(college)
+  # isolate college names (sets as private)
+college = college[,-1]
+  #let's look again
+fix(college)
+```
+  
+  (c) See parts below
+   (i) use summary() to produce numerical summary of dataset
+```{r}
+summary(college)
+```
+   
+   (ii) use pairs() to produce a scatterplot matrix
+```{r}
+pairs(college)        # references whole set
+pairs(college[,1:10]) # references first 10 columns
+```
+   
+   (iii) Use plot() to produce side-by-side boxplots of OutState vs Private
+```{r}
+plot(college$Private, college$Outstate)
+```
+   
+   (iv) Create qualitative variable Elite by binning Top10perc
+```{r}
+Elite = rep("No",nrow(college))
+Elite[college$Top10perc>50]="Yes"
+Elite=as.factor(Elite)
+college=data.frame(college,Elite)
+# summary() to see how many elite universities there are
+summary(Elite)
+# plot() for side-by-side boxplots of OutState vs Elite
+plot(college$Elite, college$Outstate)
+```
+  
+  (v) Use hist() to produce some histograms
+```{r}
+# output format
+par(mfrow=c(1,1))
+# some histograms
+hist(college$Outstate)
+hist(college$Apps)
+hist(college$Accept)
+hist(college$Enroll)
+hist(college$PhD)
 ```
 
-(b) make comments if needed.
+#### Exercise 10:
+```{r}
+# a) load data
+library(MASS)
+#Boston
+#Command is commented out to save paper
+# info on set
+?Boston
+```
 
-#### Exercise 10: 
+How many rows? How many columns? What do they represent? 
+
+506 rows, 14 columns. Columns represent crime rate, proportional land zoned,
+proportional non-retail business acres per town, Charles river tract,
+ntriogen oxides concentration, avg rooms per dwelling, proportion of
+owner-occupied units built prior to 1940, weighted mean of distances to
+five Boston employment centres, index of accessibility to radial highways,
+full-value property-tax rate, pupil-teacher ration by town, proportaion of
+blacks by town, percent lower status of the population, and median value of
+owner-occupied homes. Rows represent distinct suburbs.
+
+ (b) Make some pairwise scatterplots of the predictors (columns) in this data
+     set. Describe your findings.
+     
+     Let's take a look at how crime, nitrogen oxides, and home age relate
+```{r}
+attach(Boston) # so we may access column names as variables
+pairs(~ crim + nox + age)
+```
+
+There appears to be a weak relationship between nox and areas with
+a high concentration of old homes..
+Crime appears to experience a spike in areas with a high concentration
+of old homes, despite being fairly low and steady prior to the spike.
+```{r}
+pairs(~ ptratio + tax + lstat)
+```
+
+I see no distinct relationship between the pupil-teacher ratio and full-value
+property-tax rates. Pupil-teacher ratios seem to be varied for areas with
+areas with fewer lower-status populations. The ratios present for poorer
+regions are higher, but their are also far few data points, which may
+indicate fewer teachers and pupils altogether.
+Areas with the smallest lower-status populations appear to have a bubble of
+low tax rates, a gap in the middle, and a few high tax rates. Residents with
+hight tax rates seem to live in neighborhoods across the spectrum.
+
+ (c) Are any of the predictors associated with per capita crime rate? If so,
+     describe the realtionship. 
+
+The followig predictors exhibit some correlation with per capita crim.
+```{r}
+pairs(~ crim + medv)
+```
+
+Higher crime rates appear to be associate with lower median value homes.
+```{r}
+pairs(~ dis + crim)
+```
+
+Most data points occur at distances closer to employment centers. Further
+distances have lower per capita crime, but the data also tapers off. This could
+be a matter of sampling.
+```{r}
+pairs(~ nox + crim)
+```
+
+Higher crime rates appear at areas with a rate between 0.6 and 0.8 nitrogen
+oxide parts per 10 million
+
+ (d) Do any of the suburbs of Boston appear to have particularly high crime      rates? Tax rates? Pupil-teacher ratios? Comment on the range of each predictor
+```{R}
+###################### YOU'RE NOT DONE HERE LOOK AT THE QUESITON ##########
+summary(crim)
+summary(tax)
+summary(ptratio)
+```
+
+(e) How many of the suburbs in this data set bound the Charles river?
+```{r}
+sum(chas)
+```
+
+35 suburbs bound the Charles River
+
+(f) What is the median pupil-teacher ratio among the towns in this data set?
+```{r}
+median(ptratio)
+```
+
+Median = 19.05 pupils per teacher
+
+(g) Which suburb of Boston has lowest median value of owner-occupied homes?
+What are the values of the other predictors for that suburb, and how do those
+values compare to the overall ranges for those predictors? Comment on your
+findings.
+```{r}
+min(medv)
+```
+
+I am unsure of how to identify the name or number of this suburb
+
+(h) How many of the suburbs average more than seven rooms per dwelling?
+More than eight rooms per dwelling? Comment on the suburbs that average more
+than eight rooms per dwelling
+```{r}
+sum(rm > 7)
+```
+
+64 suburbs average more than seven rooms per dwelling
+```{r}
+sum(rm > 8)
+```
+
+13 suburbs average more than eight rooms per dwelling.
+
+ 
 
 
 
