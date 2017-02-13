@@ -4,8 +4,8 @@
 # 14 February 2017
 
 # 8)
-  # a) import data
-college = read.csv(file = "~/Downloads/College.csv", header = TRUE, sep = ",")
+  # a) import data (assumes College.csv is in working directory)
+college = read.csv(file = "College.csv", header = TRUE, sep = ",")
 
   # b) print csv table
 fix(college)
@@ -104,7 +104,7 @@ sum(chas)
 # 35 suburbs bound the Charles River
 
 # f) What is the median pupil-teacher ratio among the towns in this data set?
-summary(ptratio)
+median(ptratio)
 # Median = 19.05 pupils per teacher
 
 # g) Which suburb of Boston has lowest median value of owner-occupied homes?
@@ -112,6 +112,7 @@ summary(ptratio)
 # values compare to the overall ranges for those predictors? Comment on your
 # findings.
 
+identify(min(medv))
 # h) How many of the suburbs average more than seven rooms per dwelling?
 # More than eight rooms per dwelling? Comment on the suburbs that average more
 # than eight rooms per dwelling
