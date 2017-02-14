@@ -148,7 +148,7 @@ pairs(college[,1:10]) # references first 10 columns
    
    (iii) Use plot() to produce side-by-side boxplots of OutState vs Private
 ```{r}
-plot(college$Private, college$Outstate)
+plot(college$Private, college$Outstate, main="Private vs. Out of State Universities")
 ```
    
    (iv) Create qualitative variable Elite by binning Top10perc
@@ -160,7 +160,7 @@ college=data.frame(college,Elite)
 # summary() to see how many elite universities there are
 summary(Elite)
 # plot() for side-by-side boxplots of OutState vs Elite
-plot(college$Elite, college$Outstate)
+plot(college$Elite, college$Outstate, main="Elite vs. Out of State Universities")
 ```
   
   (v) Use hist() to produce some histograms
@@ -246,11 +246,35 @@ Higher crime rates appear at areas with a rate between 0.6 and 0.8 nitrogen
 oxide parts per 10 million
 
  (d) Do any of the suburbs of Boston appear to have particularly high crime      rates? Tax rates? Pupil-teacher ratios? Comment on the range of each predictor
-```{R}
-###################### YOU'RE NOT DONE HERE LOOK AT THE QUESITON ##########
+ 
+ Let's take a closer look at each
+```{r}
 summary(crim)
+```
+
+Our range is 88.980 - 0.00632 = 88.97368. This is quite a large range. On top of that, our median and mean are quite different from one another, which suggests there are a lot of outliers. Here are the highest per capita crime rates
+```{r}
+tail(sort(crim))
+```
+
+Let's take a look at property tax rates.
+```{r}
 summary(tax)
+```
+
+Our range is 711 - 187 = 524. Important to keep in mind our numbers here are per \$10,000, so that's a difference of 524 / 10,000 = 0.0524, or about a 5% difference from the highest to the lowest tax rate. This is a smaller range than I had expected, given the United State's progressive tax system. Here are the set's highest.
+```{r}
+tail(sort(tax))
+```
+
+Lastly, we have pupil-teacher ratios.
+```{r}
 summary(ptratio)
+```
+
+The range is 22 - 12.6 = 9.4. Since we are talking about a number of students, we may say the highest and lowest sampled classrooms differ by about 10 students. Here, our mean and median are somewhat close, which tells us the data is fairly normal. The highest ratios are as follows:
+```{r}
+tail(sort(ptratio))
 ```
 
 (e) How many of the suburbs in this data set bound the Charles river?
@@ -272,10 +296,15 @@ What are the values of the other predictors for that suburb, and how do those
 values compare to the overall ranges for those predictors? Comment on your
 findings.
 ```{r}
-min(medv)
+lowest.medv = which.min(medv)
+Boston[lowest.medv,]
 ```
 
-I am unsure of how to identify the name or number of this suburb
+This suburb has a crime rate, industry zoning, and nox concentration above the 3rd quadrant. None of its land is zoned for lots over 25,000 sq.ft. It is important to note here that the median is also 0 for this predictor. Its population percentage in the lower status (30.59%) is near the highest recorded. All of its owner-occupied homes were build prior to 1940. Its owner-occupied dwellings average about 6 rooms, which is the same as the first quadrant, and sounds about right for a suburban area. These numbers suggest this is a poor, crime-ridden suburb.
+
+The suburb has a weighted mean of 1.4896 (no units included) to an employment center. Residents are not too far from work. In fact, they are closer than most suburbs in Boston, sitting well below the mean and median, as well as the first quadrant. However, They are also the farthest suburb to any radial highways. It may be difficult for residents to get out to attain work in a different area.
+
+This suburb also has a pupil-teacher ratio at the third quadrant of our data, about 1 pupil away from being the highest. There are relatively few teachers for the students in this area. This area also has the highest population of black individuals of all suburbs in Boston.
 
 (h) How many of the suburbs average more than seven rooms per dwelling?
 More than eight rooms per dwelling? Comment on the suburbs that average more
