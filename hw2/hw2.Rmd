@@ -1,0 +1,155 @@
+---
+title: "Chapter 3 HW"
+author: "Nehemya McCarter-Ribakoff"
+date: "28 February 2017"
+output: 
+  html_document: 
+    fig_height: 4
+    highlight: pygments
+    theme: spacelab
+---
+
+```{r setup, include=FALSE}
+# DO NOT ALTER CODE IN THIS CHUNK
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+```
+
+* * *
+
+## Conceptual Questions
+
+
+#### Exercise 1: Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these
+p-values. Your explanation should be phrased in terms of sales, TV,
+radio, and newspaper, rather than in terms of the coefficients of the
+linear model.
+
+
+#### Exercise 3:  Suppose we have a data set with five predictors, X1 = GPA, X2 = IQ, X3 = Gender (1 for Female and 0 for Male), X4 = Interaction between GPA and IQ, and X5 = Interaction between GPA and Gender. The response is starting salary after graduation (in thousands of dollars). Suppose we use least squares to fit the model, and get βˆ0 = 50, βˆ1 = 20, βˆ2 = 0.07, βˆ3 = 35, βˆ4 = 0.01, βˆ5 = −10.
+
+(a) Which answer is correct, and why?
+i. For a fixed value of IQ and GPA, males earn more on average
+than females.
+
+ii. For a fixed value of IQ and GPA, females earn more on
+average than males.
+
+iii. For a fixed value of IQ and GPA, males earn more on average
+than females provided that the GPA is high enough.
+
+iv. For a fixed value of IQ and GPA, females earn more on
+average than males provided that the GPA is high enough.
+
+(b) Predict the salary of a female with IQ of 110 and a GPA of 4.0.
+
+(c) True or false: Since the coefficient for the GPA/IQ interaction
+term is very small, there is very little evidence of an interaction
+effect. Justify your answer.
+
+
+* * *
+
+## Applied Questions
+
+#### Exercise 10: This question should be answered using the Carseats data set.
+
+(a) Fit a multiple regression model to predict Sales using Price,
+Urban, and US.
+
+(b) Provide an interpretation of each coefficient in the model. Be
+careful—some of the variables in the model are qualitative!
+
+(c) Write out the model in equation form, being careful to handle
+the qualitative variables properly.
+
+(d) For which of the predictors can you reject the null hypothesis
+H0 : βj = 0?
+
+(e) On the basis of your response to the previous question, fit a
+smaller model that only uses the predictors for which there is
+evidence of association with the outcome.
+
+(f) How well do the models in (a) and (e) fit the data?
+
+(g) Using the model from (e), obtain 95 % confidence intervals for
+the coefficient(s).
+
+(h) Is there evidence of outliers or high leverage observations in the
+model from (e)?
+
+
+
+```{r}
+summary(cars)
+plot(cars)
+```
+
+#### Exercise 13: In this exercise you will create some simulated data and will fit simple linear regression models to it. Make sure to use set.seed(1) prior to
+starting part (a) to ensure consistent results.
+
+(a) Using the rnorm() function, create a vector, x, containing 100
+observations drawn from a N(0, 1) distribution. This represents
+a feature, X.
+
+(b) Using the rnorm() function, create a vector, eps, containing 100
+observations drawn from a N(0, 0.25) distribution i.e. a normal
+distribution with mean zero and variance 0.25.
+
+(c) Using x and eps, generate a vector y according to the model
+Y = −1+0.5X + . (3.39)
+What is the length of the vector y? What are the values of β0
+and β1 in this linear model?
+
+(d) Create a scatterplot displaying the relationship between x and
+y. Comment on what you observe.
+(e) Fit a least squares linear model to predict y using x. Comment
+on the model obtained. How do βˆ0 and βˆ1 compare to β0 and
+β1?
+
+(f) Display the least squares line on the scatterplot obtained in (d).
+Draw the population regression line on the plot, in a different
+color. Use the legend() command to create an appropriate legend.
+
+(g) Now fit a polynomial regression model that predicts y using x
+and x2. Is there evidence that the quadratic term improves the
+model fit? Explain your answer.
+
+(h) Repeat (a)–(f) after modifying the data generation process in
+such a way that there is less noise in the data. The model (3.39)
+should remain the same. You can do this by decreasing the variance
+of the normal distribution used to generate the error term
+ in (b). Describe your results.
+
+(i) Repeat (a)–(f) after modifying the data generation process in
+such a way that there is more noise in the data. The model
+(3.39) should remain the same. You can do this by increasing
+the variance of the normal distribution used to generate the
+error term  in (b). Describe your results.
+
+(j) What are the confidence intervals for β0 and β1 based on the
+original data set, the noisier data set, and the less noisy data
+set? Comment on your results.
+
+
+
+
+
+
+
+* * *
+
+## Teamwork report
+
+<!--
+For each team member, write their name, whether they attended the lab session, 
+whether they were the author for this week, and their contribution to the lab 
+report (as a percentage). The percentages should add up to 100.
+-->
+
+| Team member             | Conceptual | Applied  | Contribution % |
+|:------------------------|:----------:|:--------:|---------------:|
+| Tom                     | Yes / No   | Yes / No | 50%            |
+| Jerry                   | Yes / No   | Yes / No | 50%            |
+| Total                   |            |          | 100%           |
