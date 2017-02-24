@@ -21,10 +21,15 @@ library(ggplot2)
 ## Conceptual Questions
 
 
-#### Exercise 1: Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these
-p-values. Your explanation should be phrased in terms of sales, TV,
+#### Exercise 1: Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV,
 radio, and newspaper, rather than in terms of the coefficients of the
 linear model.
+
+Null Hypothesies
+Intercept: for a given amount of TV and newspaper advertising, spending an additional $1,000 on radio advertising leads to an increase in sales by approximately 189 units.
+TV:
+radio:
+newspaper:
 
 
 #### Exercise 3:  Suppose we have a data set with five predictors, X1 = GPA, X2 = IQ, X3 = Gender (1 for Female and 0 for Male), X4 = Interaction between GPA and IQ, and X5 = Interaction between GPA and Gender. The response is starting salary after graduation (in thousands of dollars). Suppose we use least squares to fit the model, and get βˆ0 = 50, βˆ1 = 20, βˆ2 = 0.07, βˆ3 = 35, βˆ4 = 0.01, βˆ5 = −10.
@@ -55,11 +60,24 @@ effect. Justify your answer.
 
 #### Exercise 10: This question should be answered using the Carseats data set.
 
+```{r}
+library(ISLR)
+Carseats
+# Let's get the names so we know what we're doing
+names(Carseats)
+```
+
 (a) Fit a multiple regression model to predict Sales using Price,
 Urban, and US.
 
+```{r}
+lm.fit = lm(Carseats$Sales~Carseats$Price+Carseats$Urban+Carseats$US)
+lm.fit
+```
+
 (b) Provide an interpretation of each coefficient in the model. Be
 careful—some of the variables in the model are qualitative!
+
 
 (c) Write out the model in equation form, being careful to handle
 the qualitative variables properly.
