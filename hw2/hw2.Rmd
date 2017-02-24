@@ -21,14 +21,17 @@ library(ggplot2)
 ## Conceptual Questions
 
 
-#### Exercise 1: Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV,
-radio, and newspaper, rather than in terms of the coefficients of the
-linear model.
+#### Exercise 1: Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV, radio, and newspaper, rather than in terms of the coefficients of the linear model.
 
-Null Hypothesies
+Null Hypotheses:
+
+
 Intercept: for a given amount of TV and newspaper advertising, spending an additional $1,000 on radio advertising leads to an increase in sales by approximately 189 units.
+
 TV:
+
 radio:
+
 newspaper:
 
 
@@ -62,7 +65,6 @@ effect. Justify your answer.
 
 ```{r}
 library(ISLR)
-Carseats
 # Let's get the names so we know what we're doing
 names(Carseats)
 ```
@@ -98,12 +100,6 @@ the coefficient(s).
 model from (e)?
 
 
-
-```{r}
-summary(cars)
-plot(cars)
-```
-
 #### Exercise 13: In this exercise you will create some simulated data and will fit simple linear regression models to it. Make sure to use set.seed(1) prior to
 starting part (a) to ensure consistent results.
 
@@ -111,9 +107,17 @@ starting part (a) to ensure consistent results.
 observations drawn from a N(0, 1) distribution. This represents
 a feature, X.
 
+```{r}
+x = rnorm(100, mean = 0, sd = 1)
+```
+
 (b) Using the rnorm() function, create a vector, eps, containing 100
 observations drawn from a N(0, 0.25) distribution i.e. a normal
 distribution with mean zero and variance 0.25.
+
+```{r}
+eps = rnorm(100, mean = 0, sd = sqrt(0.25))
+```
 
 (c) Using x and eps, generate a vector y according to the model
 Y = −1+0.5X + . (3.39)
@@ -168,6 +172,5 @@ report (as a percentage). The percentages should add up to 100.
 
 | Team member             | Conceptual | Applied  | Contribution % |
 |:------------------------|:----------:|:--------:|---------------:|
-| Tom                     | Yes / No   | Yes / No | 50%            |
-| Jerry                   | Yes / No   | Yes / No | 50%            |
+| Nehemya                 |    Yes     |   Yes    | 100%           |
 | Total                   |            |          | 100%           |
