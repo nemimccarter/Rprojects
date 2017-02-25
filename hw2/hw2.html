@@ -207,13 +207,35 @@ lm.fit</code></pre></div>
 ##    Carseats$USYes  
 ##           1.20057</code></pre>
 <p><strong>(b) Provide an interpretation of each coefficient in the model. Be careful—some of the variables in the model are qualitative!</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(lm.fit)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Carseats$Sales ~ Carseats$Price + Carseats$Urban + 
+##     Carseats$US)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.9206 -1.6220 -0.0564  1.5786  7.0581 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       13.043469   0.651012  20.036  &lt; 2e-16 ***
+## Carseats$Price    -0.054459   0.005242 -10.389  &lt; 2e-16 ***
+## Carseats$UrbanYes -0.021916   0.271650  -0.081    0.936    
+## Carseats$USYes     1.200573   0.259042   4.635 4.86e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.472 on 396 degrees of freedom
+## Multiple R-squared:  0.2393, Adjusted R-squared:  0.2335 
+## F-statistic: 41.52 on 3 and 396 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Our Intercept is 13.04 – when all predictors are averaged, we can expect sales of $13,040</p>
 <p>The coefficient of price is -0.05446. As price increases, sales marginally decrease, but this coefficient is so small it is likely negligible.</p>
 <p>Stores in urban locations exhibit marginally lower sales. Once again, -0.022 is such a small coefficient, we can probably disregard this.</p>
 <p>There is a small, positive relationship between a U.S. store location and an increase in sales.</p>
 <p><strong>(c) Write out the model in equation form, being careful to handle the qualitative variables properly.</strong></p>
 <p><strong>(d) For which of the predictors can you reject the null hypothesis H0 : βj = 0?</strong></p>
-<p><strong>(e) On the basis of your response to the previous question, fit a smaller model that only uses the predictors for which there is evidence of association with the outcome.</strong></p>
+<p>We can reject the null hypothesis for Price and USYes, as these p-values are both 2<sup>-16</sup> <strong>(e) On the basis of your response to the previous question, fit a smaller model that only uses the predictors for which there is evidence of association with the outcome.</strong></p>
 <ol start="6" style="list-style-type: lower-alpha">
 <li><p>How well do the models in (a) and (e) fit the data?</p></li>
 <li><p>Using the model from (e), obtain 95 % confidence intervals for the coefficient(s).</p></li>

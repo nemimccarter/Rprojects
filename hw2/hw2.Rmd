@@ -119,14 +119,38 @@ the qualitative variables properly.**
 **(d) For which of the predictors can you reject the null hypothesis
 H0 : βj = 0?**
 
+```{r}
+summary(lm.fit)
+```
+
+We can reject the null hypotheses for Price and USYes, as these p-values are both 2<sup>-16</sup>
+
 **(e) On the basis of your response to the previous question, fit a
 smaller model that only uses the predictors for which there is
 evidence of association with the outcome.**
 
+```{r}
+lm.smallFit = lm(Carseats$Sales~Carseats$Price + Carseats$US)
+```
+
 (f) How well do the models in (a) and (e) fit the data?
+
+We can measure the quality of fit with MSE (for continuous data) and 
+```{r}
+summary(lm.fit)$sigma #RSE fit
+summary(lm.smallFit)$sigma #RSE smallFit
+summary(lm.fit)$r.sq #R^2 fit
+summary(lm.smallFit)$r.sq #R^2 smallFit
+```
+
+The models fit the data about the same, though the original fit has a larger R<sup>2</sup>, so it is a slightly better fit. Both are much closer to 0 than 1, so neither is a very good fit.
 
 (g) Using the model from (e), obtain 95 % confidence intervals for
 the coefficient(s).
+
+```{r}
+confint(lm.smallFit, level = 0.95)
+```
 
 (h) Is there evidence of outliers or high leverage observations in the
 model from (e)?
