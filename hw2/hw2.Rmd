@@ -26,35 +26,58 @@ library(ggplot2)
 Null Hypotheses:
 
 
-Intercept: for a given amount of TV and newspaper advertising, spending an additional $1,000 on radio advertising leads to an increase in sales by approximately 189 units.
+Intercept: 
 
-TV:
+TV: There is no relationship between TV advertising and sales.
+    The p-value is below 1%, so we may reject the null hypothesis.
+    That is, there is some relationship between TV ads and sales.
 
-radio:
+radio: There is no relationship between radio advertising and sales.
+       The p-value is below 1%, so we may reject the null hypothesis.
+       That is, there is some relationship between radio ads and sales.
 
-newspaper:
-
+newspaper: There is not relationship between newspaper advertising and sales
+           The p-value is about 86%, which is quite high. Thus, we may retain the            null hypothesis. There is no relationship between newspaper ads and              sales.
 
 #### Exercise 3:  Suppose we have a data set with five predictors, X1 = GPA, X2 = IQ, X3 = Gender (1 for Female and 0 for Male), X4 = Interaction between GPA and IQ, and X5 = Interaction between GPA and Gender. The response is starting salary after graduation (in thousands of dollars). Suppose we use least squares to fit the model, and get βˆ0 = 50, βˆ1 = 20, βˆ2 = 0.07, βˆ3 = 35, βˆ4 = 0.01, βˆ5 = −10.
 
-(a) Which answer is correct, and why?
-i. For a fixed value of IQ and GPA, males earn more on average
-than females.
+Our intercept coefficient is 50; Our average salary is $50,000.
 
-ii. For a fixed value of IQ and GPA, females earn more on
-average than males.
+**(a) Which answer is correct, and why?**
 
-iii. For a fixed value of IQ and GPA, males earn more on average
-than females provided that the GPA is high enough.
+**i. For a fixed value of IQ and GPA, males earn more on average
+than females.**
 
-iv. For a fixed value of IQ and GPA, females earn more on
-average than males provided that the GPA is high enough.
+If IQ and GPA are fixed, then the only predictor is gender, X3, whose corresponding prediction is βˆ3 = 35. 
 
-(b) Predict the salary of a female with IQ of 110 and a GPA of 4.0.
+**ii. For a fixed value of IQ and GPA, females earn more on
+average than males.**
 
-(c) True or false: Since the coefficient for the GPA/IQ interaction
+Same as above, our only predictor is X3, and βˆ3 = 35.
+
+**iii. For a fixed value of IQ and GPA, males earn more on average
+than females provided that the GPA is high enough.**
+
+
+**iv. For a fixed value of IQ and GPA, females earn more on
+average than males provided that the GPA is high enough.**
+
+
+**(b) Predict the salary of a female with IQ of 110 and a GPA of 4.0.**
+
+We simply multiply the predictors to the model's corresponding coefficients.
+
+``` 
+(20 * 4.0) + (110 * 0.07) = 87.7.
+```
+
+We expect her to have a salary of $87,700
+
+**(c) True or false: Since the coefficient for the GPA/IQ interaction
 term is very small, there is very little evidence of an interaction
-effect. Justify your answer.
+effect. Justify your answer.**
+
+This is true. A coefficient value of 0 means there is no association, and if a value is close, there is little association. A slight positive value suggests there is a weak, positive relationship, but a value so small may be negligible.
 
 
 * * *
@@ -67,29 +90,38 @@ effect. Justify your answer.
 library(ISLR)
 # Let's get the names so we know what we're doing
 names(Carseats)
+
+#Note that unit sales are in $1,000.
 ```
 
-(a) Fit a multiple regression model to predict Sales using Price,
-Urban, and US.
+**(a) Fit a multiple regression model to predict Sales using Price,
+Urban, and US.**
 
 ```{r}
 lm.fit = lm(Carseats$Sales~Carseats$Price+Carseats$Urban+Carseats$US)
 lm.fit
 ```
 
-(b) Provide an interpretation of each coefficient in the model. Be
-careful—some of the variables in the model are qualitative!
+**(b) Provide an interpretation of each coefficient in the model. Be
+careful—some of the variables in the model are qualitative!**
 
+Our Intercept is 13.04 -- when all predictors are averaged, we can expect sales of $13,040
 
-(c) Write out the model in equation form, being careful to handle
-the qualitative variables properly.
+The coefficient of price is -0.05446. As price increases, sales marginally decrease, but this coefficient is so small it is likely negligible.
 
-(d) For which of the predictors can you reject the null hypothesis
-H0 : βj = 0?
+Stores in urban locations exhibit marginally lower sales. Once again, -0.022 is such a small coefficient, we can probably disregard this.
 
-(e) On the basis of your response to the previous question, fit a
+There is a small, positive relationship between a U.S. store location and an increase in sales.
+
+**(c) Write out the model in equation form, being careful to handle
+the qualitative variables properly.**
+
+**(d) For which of the predictors can you reject the null hypothesis
+H0 : βj = 0?**
+
+**(e) On the basis of your response to the previous question, fit a
 smaller model that only uses the predictors for which there is
-evidence of association with the outcome.
+evidence of association with the outcome.**
 
 (f) How well do the models in (a) and (e) fit the data?
 

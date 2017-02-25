@@ -158,26 +158,27 @@ $(document).ready(function () {
 <div id="exercise-1-describe-the-null-hypotheses-to-which-the-p-values-given-in-table-3.4-correspond.-explain-what-conclusions-you-can-draw-based-on-these-p-values.-your-explanation-should-be-phrased-in-terms-of-sales-tv-radio-and-newspaper-rather-than-in-terms-of-the-coefficients-of-the-linear-model." class="section level4">
 <h4>Exercise 1: Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV, radio, and newspaper, rather than in terms of the coefficients of the linear model.</h4>
 <p>Null Hypotheses:</p>
-<p>Intercept: for a given amount of TV and newspaper advertising, spending an additional $1,000 on radio advertising leads to an increase in sales by approximately 189 units.</p>
-<p>TV:</p>
-<p>radio:</p>
-<p>newspaper:</p>
+<p>Intercept:</p>
+<p>TV: There is no relationship between TV advertising and sales. The p-value is below 1%, so we may reject the null hypothesis. That is, there is some relationship between TV ads and sales.</p>
+<p>radio: There is no relationship between radio advertising and sales. The p-value is below 1%, so we may reject the null hypothesis. That is, there is some relationship between radio ads and sales.</p>
+<p>newspaper: There is not relationship between newspaper advertising and sales The p-value is about 86%, which is quite high. Thus, we may retain the null hypothesis. There is no relationship between newspaper ads and sales.</p>
 </div>
 <div id="exercise-3-suppose-we-have-a-data-set-with-five-predictors-x1-gpa-x2-iq-x3-gender-1-for-female-and-0-for-male-x4-interaction-between-gpa-and-iq-and-x5-interaction-between-gpa-and-gender.-the-response-is-starting-salary-after-graduation-in-thousands-of-dollars.-suppose-we-use-least-squares-to-fit-the-model-and-get-0-50-1-20-2-0.07-3-35-4-0.01-5-10." class="section level4">
 <h4>Exercise 3: Suppose we have a data set with five predictors, X1 = GPA, X2 = IQ, X3 = Gender (1 for Female and 0 for Male), X4 = Interaction between GPA and IQ, and X5 = Interaction between GPA and Gender. The response is starting salary after graduation (in thousands of dollars). Suppose we use least squares to fit the model, and get βˆ0 = 50, βˆ1 = 20, βˆ2 = 0.07, βˆ3 = 35, βˆ4 = 0.01, βˆ5 = −10.</h4>
-<ol style="list-style-type: lower-alpha">
-<li>Which answer is correct, and why?</li>
-</ol>
-<ol style="list-style-type: lower-roman">
-<li><p>For a fixed value of IQ and GPA, males earn more on average than females.</p></li>
-<li><p>For a fixed value of IQ and GPA, females earn more on average than males.</p></li>
-<li><p>For a fixed value of IQ and GPA, males earn more on average than females provided that the GPA is high enough.</p></li>
-<li><p>For a fixed value of IQ and GPA, females earn more on average than males provided that the GPA is high enough.</p></li>
-</ol>
-<ol start="2" style="list-style-type: lower-alpha">
-<li><p>Predict the salary of a female with IQ of 110 and a GPA of 4.0.</p></li>
-<li><p>True or false: Since the coefficient for the GPA/IQ interaction term is very small, there is very little evidence of an interaction effect. Justify your answer.</p></li>
-</ol>
+<p>Our intercept coefficient is 50; Our average salary is $50,000.</p>
+<p><strong>(a) Which answer is correct, and why?</strong></p>
+<p><strong>i. For a fixed value of IQ and GPA, males earn more on average than females.</strong></p>
+<p>If IQ and GPA are fixed, then the only predictor is gender, X3, whose corresponding prediction is βˆ3 = 35.</p>
+<p><strong>ii. For a fixed value of IQ and GPA, females earn more on average than males.</strong></p>
+<p>Same as above, our only predictor is X3, and βˆ3 = 35.</p>
+<p><strong>iii. For a fixed value of IQ and GPA, males earn more on average than females provided that the GPA is high enough.</strong></p>
+<p><strong>iv. For a fixed value of IQ and GPA, females earn more on average than males provided that the GPA is high enough.</strong></p>
+<p><strong>(b) Predict the salary of a female with IQ of 110 and a GPA of 4.0.</strong></p>
+<p>We simply multiply the predictors to the model’s corresponding coefficients.</p>
+<pre><code>(20 * 4.0) + (110 * 0.07) = 87.7.</code></pre>
+<p>We expect her to have a salary of $87,700</p>
+<p><strong>(c) True or false: Since the coefficient for the GPA/IQ interaction term is very small, there is very little evidence of an interaction effect. Justify your answer.</strong></p>
+<p>This is true. A coefficient value of 0 means there is no association, and if a value is close, there is little association. A slight positive value suggests there is a weak, positive relationship, but a value so small may be negligible.</p>
 <hr />
 </div>
 </div>
@@ -191,9 +192,8 @@ $(document).ready(function () {
 <pre><code>##  [1] &quot;Sales&quot;       &quot;CompPrice&quot;   &quot;Income&quot;      &quot;Advertising&quot; &quot;Population&quot; 
 ##  [6] &quot;Price&quot;       &quot;ShelveLoc&quot;   &quot;Age&quot;         &quot;Education&quot;   &quot;Urban&quot;      
 ## [11] &quot;US&quot;</code></pre>
-<ol style="list-style-type: lower-alpha">
-<li>Fit a multiple regression model to predict Sales using Price, Urban, and US.</li>
-</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Note that unit sales are in $1,000.</span></code></pre></div>
+<p><strong>(a) Fit a multiple regression model to predict Sales using Price, Urban, and US.</strong></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm.fit =<span class="st"> </span><span class="kw">lm</span>(Carseats$Sales~Carseats$Price+Carseats$Urban+Carseats$US)
 lm.fit</code></pre></div>
 <pre><code>## 
@@ -206,11 +206,15 @@ lm.fit</code></pre></div>
 ##          13.04347           -0.05446           -0.02192  
 ##    Carseats$USYes  
 ##           1.20057</code></pre>
-<ol start="2" style="list-style-type: lower-alpha">
-<li><p>Provide an interpretation of each coefficient in the model. Be careful—some of the variables in the model are qualitative!</p></li>
-<li><p>Write out the model in equation form, being careful to handle the qualitative variables properly.</p></li>
-<li><p>For which of the predictors can you reject the null hypothesis H0 : βj = 0?</p></li>
-<li><p>On the basis of your response to the previous question, fit a smaller model that only uses the predictors for which there is evidence of association with the outcome.</p></li>
+<p><strong>(b) Provide an interpretation of each coefficient in the model. Be careful—some of the variables in the model are qualitative!</strong></p>
+<p>Our Intercept is 13.04 – when all predictors are averaged, we can expect sales of $13,040</p>
+<p>The coefficient of price is -0.05446. As price increases, sales marginally decrease, but this coefficient is so small it is likely negligible.</p>
+<p>Stores in urban locations exhibit marginally lower sales. Once again, -0.022 is such a small coefficient, we can probably disregard this.</p>
+<p>There is a small, positive relationship between a U.S. store location and an increase in sales.</p>
+<p><strong>(c) Write out the model in equation form, being careful to handle the qualitative variables properly.</strong></p>
+<p><strong>(d) For which of the predictors can you reject the null hypothesis H0 : βj = 0?</strong></p>
+<p><strong>(e) On the basis of your response to the previous question, fit a smaller model that only uses the predictors for which there is evidence of association with the outcome.</strong></p>
+<ol start="6" style="list-style-type: lower-alpha">
 <li><p>How well do the models in (a) and (e) fit the data?</p></li>
 <li><p>Using the model from (e), obtain 95 % confidence intervals for the coefficient(s).</p></li>
 <li><p>Is there evidence of outliers or high leverage observations in the model from (e)?</p></li>
@@ -263,18 +267,12 @@ report (as a percentage). The percentages should add up to 100.
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Tom</td>
-<td align="center">Yes / No</td>
-<td align="center">Yes / No</td>
-<td align="right">50%</td>
+<td align="left">Nehemya</td>
+<td align="center">Yes</td>
+<td align="center">Yes</td>
+<td align="right">100%</td>
 </tr>
 <tr class="even">
-<td align="left">Jerry</td>
-<td align="center">Yes / No</td>
-<td align="center">Yes / No</td>
-<td align="right">50%</td>
-</tr>
-<tr class="odd">
 <td align="left">Total</td>
 <td align="center"></td>
 <td align="center"></td>
