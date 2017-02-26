@@ -39,7 +39,7 @@ radio: There is no relationship between radio advertising and sales.
 newspaper: There is not relationship between newspaper advertising and sales
            The p-value is about 86%, which is quite high. Thus, we may retain the            null hypothesis. There is no relationship between newspaper ads and              sales.
 
-#### Exercise 3:  Suppose we have a data set with five predictors, X1 = GPA, X2 = IQ, X3 = Gender (1 for Female and 0 for Male), X4 = Interaction between GPA and IQ, and X5 = Interaction between GPA and Gender. The response is starting salary after graduation (in thousands of dollars). Suppose we use least squares to fit the model, and get βˆ0 = 50, βˆ1 = 20, βˆ2 = 0.07, βˆ3 = 35, βˆ4 = 0.01, βˆ5 = −10.
+#### Exercise 3:  suppose we have a data set with five predictors, X1 = GPA, X2 = IQ, X3 = Gender (1 for Female and 0 for Male), X4 = Interaction between GPA and IQ, and X5 = Interaction between GPA and Gender. The response is starting salary after graduation (in thousands of dollars). suppose we use least squares to fit the model, and get β<sub>0</sub> = 50, β<sub>1</sub> = 20, β<sub>2</sub> = 0.07, β<sub>3</sub> = 35, β<sub>4</sub> = 0.01, β<sub>5</sub> = −10.
 
 Our intercept coefficient is 50; Our average salary is $50,000.
 
@@ -48,12 +48,12 @@ Our intercept coefficient is 50; Our average salary is $50,000.
 **i. For a fixed value of IQ and GPA, males earn more on average
 than females.**
 
-If IQ and GPA are fixed, then the only predictor is gender, X3, whose corresponding prediction is βˆ3 = 35. 
+If IQ and GPA are fixed, then the only predictor is gender, X3, whose corresponding prediction is β<sub>3</sub> = 35. 
 
 **ii. For a fixed value of IQ and GPA, females earn more on
 average than males.**
 
-Same as above, our only predictor is X3, and βˆ3 = 35.
+Same as above, our only predictor is X3, and β<sub>3</sub> = 35.
 
 **iii. For a fixed value of IQ and GPA, males earn more on average
 than females provided that the GPA is high enough.**
@@ -68,7 +68,7 @@ average than males provided that the GPA is high enough.**
 We simply multiply the predictors to the model's corresponding coefficients.
 
 ``` 
-(20 * 4.0) + (110 * 0.07) = 87.7.
+(20 * 4.0) + (110 * 0.07) = 87.7
 ```
 
 We expect her to have a salary of $87,700
@@ -116,14 +116,18 @@ There is a small, positive relationship between a U.S. store location and an inc
 **(c) Write out the model in equation form, being careful to handle
 the qualitative variables properly.**
 
+Sales = β<sub>0</sub> + β<sub>1</sub>Price + β<sub>2</sub>UrbanYes + β<sub>3</sub>USYes + β<sub>4</sub> + β<sub>5</sub>
+
 **(d) For which of the predictors can you reject the null hypothesis
-H0 : βj = 0?**
+H0 : β<sub>j</sub> = 0?**
+
+We must look at the p-values
 
 ```{r}
 summary(lm.fit)
 ```
 
-We can reject the null hypotheses for Price and USYes, as these p-values are both 2<sup>-16</sup>
+We can reject the null hypotheses for Price and USYes, as these p-values are both 2<sub>-16</sub>
 
 **(e) On the basis of your response to the previous question, fit a
 smaller model that only uses the predictors for which there is
@@ -133,7 +137,7 @@ evidence of association with the outcome.**
 lm.smallFit = lm(Carseats$Sales~Carseats$Price + Carseats$US)
 ```
 
-(f) How well do the models in (a) and (e) fit the data?
+**(f) How well do the models in (a) and (e) fit the data?**
 
 We can measure the quality of fit with MSE (for continuous data) and 
 ```{r}
@@ -143,72 +147,73 @@ summary(lm.fit)$r.sq #R^2 fit
 summary(lm.smallFit)$r.sq #R^2 smallFit
 ```
 
-The models fit the data about the same, though the original fit has a larger R<sup>2</sup>, so it is a slightly better fit. Both are much closer to 0 than 1, so neither is a very good fit.
+The models fit the data about the same, though the original fit has a larger R<sub>2</sub>, so it is a slightly better fit. Both are much closer to 0 than 1, so neither is a very good fit.
 
-(g) Using the model from (e), obtain 95 % confidence intervals for
-the coefficient(s).
+**(g) Using the model from (e), obtain 95% confidence intervals for
+the coefficient(s).**
 
 ```{r}
 confint(lm.smallFit, level = 0.95)
 ```
 
-(h) Is there evidence of outliers or high leverage observations in the
-model from (e)?
+**(h) Is there evidence of outliers or high leverage observations in the
+model from (e)?**
 
 
 #### Exercise 13: In this exercise you will create some simulated data and will fit simple linear regression models to it. Make sure to use set.seed(1) prior to
 starting part (a) to ensure consistent results.
 
-(a) Using the rnorm() function, create a vector, x, containing 100
+**(a) Using the rnorm() function, create a vector, x, containing 100
 observations drawn from a N(0, 1) distribution. This represents
-a feature, X.
+a feature, X.**
 
 ```{r}
 x = rnorm(100, mean = 0, sd = 1)
 ```
 
-(b) Using the rnorm() function, create a vector, eps, containing 100
+**(b) Using the rnorm() function, create a vector, eps, containing 100
 observations drawn from a N(0, 0.25) distribution i.e. a normal
-distribution with mean zero and variance 0.25.
+distribution with mean zero and variance 0.25.**
 
 ```{r}
 eps = rnorm(100, mean = 0, sd = sqrt(0.25))
 ```
 
-(c) Using x and eps, generate a vector y according to the model
-Y = −1+0.5X + . (3.39)
-What is the length of the vector y? What are the values of β0
-and β1 in this linear model?
+**(c) Using x and eps, generate a vector y according to the model**
 
-(d) Create a scatterplot displaying the relationship between x and
-y. Comment on what you observe.
-(e) Fit a least squares linear model to predict y using x. Comment
-on the model obtained. How do βˆ0 and βˆ1 compare to β0 and
-β1?
+**Y = −1+0.5X + e**
 
-(f) Display the least squares line on the scatterplot obtained in (d).
+**What is the length of the vector y? What are the values of β<sub>0</sub>
+and β<sub>1</sub> in this linear model?**
+
+**(d) Create a scatterplot displaying the relationship between x and
+y. Comment on what you observe.**
+
+**(e) Fit a least squares linear model to predict y using x. Comment
+on the model obtained. How do β<sub>0</sub> and β<sub>1</sub> compare to β<sub>0</sub> and β<sub>1</sub>?**
+
+**(f) Display the least squares line on the scatterplot obtained in (d).
 Draw the population regression line on the plot, in a different
-color. Use the legend() command to create an appropriate legend.
+color. Use the legend() command to create an appropriate legend.**
 
-(g) Now fit a polynomial regression model that predicts y using x
-and x2. Is there evidence that the quadratic term improves the
-model fit? Explain your answer.
+**(g) Now fit a polynomial regression model that predicts y using x
+and x<sub>2</sub>. Is there evidence that the quadratic term improves the
+model fit? Explain your answer.**
 
-(h) Repeat (a)–(f) after modifying the data generation process in
-such a way that there is less noise in the data. The model (3.39)
+**(h) Repeat (a)–(f) after modifying the data generation process in
+such a way that there is less noise in the data. The model in (c)
 should remain the same. You can do this by decreasing the variance
 of the normal distribution used to generate the error term
- in (b). Describe your results.
+ in (b). Describe your results.**
 
-(i) Repeat (a)–(f) after modifying the data generation process in
+**(i) Repeat (a)–(f) after modifying the data generation process in
 such a way that there is more noise in the data. The model
-(3.39) should remain the same. You can do this by increasing
+in (c) should remain the same. You can do this by increasing
 the variance of the normal distribution used to generate the
-error term  in (b). Describe your results.
+error term  in (b). Describe your results.**
 
-(j) What are the confidence intervals for β0 and β1 based on the
-original data set, the noisier data set, and the less noisy data
-set? Comment on your results.
+**(j) What are the confidence intervals for β<sub>0</sub> and β<sub>1</sub> based on the original data set, the noisier data set, and the less noisy data
+set? Comment on your results.**
 
 
 

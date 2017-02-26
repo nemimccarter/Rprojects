@@ -164,18 +164,18 @@ $(document).ready(function () {
 <p>newspaper: There is not relationship between newspaper advertising and sales The p-value is about 86%, which is quite high. Thus, we may retain the null hypothesis. There is no relationship between newspaper ads and sales.</p>
 </div>
 <div id="exercise-3-suppose-we-have-a-data-set-with-five-predictors-x1-gpa-x2-iq-x3-gender-1-for-female-and-0-for-male-x4-interaction-between-gpa-and-iq-and-x5-interaction-between-gpa-and-gender.-the-response-is-starting-salary-after-graduation-in-thousands-of-dollars.-suppose-we-use-least-squares-to-fit-the-model-and-get-0-50-1-20-2-0.07-3-35-4-0.01-5-10." class="section level4">
-<h4>Exercise 3: Suppose we have a data set with five predictors, X1 = GPA, X2 = IQ, X3 = Gender (1 for Female and 0 for Male), X4 = Interaction between GPA and IQ, and X5 = Interaction between GPA and Gender. The response is starting salary after graduation (in thousands of dollars). Suppose we use least squares to fit the model, and get βˆ0 = 50, βˆ1 = 20, βˆ2 = 0.07, βˆ3 = 35, βˆ4 = 0.01, βˆ5 = −10.</h4>
+<h4>Exercise 3: suppose we have a data set with five predictors, X1 = GPA, X2 = IQ, X3 = Gender (1 for Female and 0 for Male), X4 = Interaction between GPA and IQ, and X5 = Interaction between GPA and Gender. The response is starting salary after graduation (in thousands of dollars). suppose we use least squares to fit the model, and get β<sub>0</sub> = 50, β<sub>1</sub> = 20, β<sub>2</sub> = 0.07, β<sub>3</sub> = 35, β<sub>4</sub> = 0.01, β<sub>5</sub> = −10.</h4>
 <p>Our intercept coefficient is 50; Our average salary is $50,000.</p>
 <p><strong>(a) Which answer is correct, and why?</strong></p>
 <p><strong>i. For a fixed value of IQ and GPA, males earn more on average than females.</strong></p>
-<p>If IQ and GPA are fixed, then the only predictor is gender, X3, whose corresponding prediction is βˆ3 = 35.</p>
+<p>If IQ and GPA are fixed, then the only predictor is gender, X3, whose corresponding prediction is β<sub>3</sub> = 35.</p>
 <p><strong>ii. For a fixed value of IQ and GPA, females earn more on average than males.</strong></p>
-<p>Same as above, our only predictor is X3, and βˆ3 = 35.</p>
+<p>Same as above, our only predictor is X3, and β<sub>3</sub> = 35.</p>
 <p><strong>iii. For a fixed value of IQ and GPA, males earn more on average than females provided that the GPA is high enough.</strong></p>
 <p><strong>iv. For a fixed value of IQ and GPA, females earn more on average than males provided that the GPA is high enough.</strong></p>
 <p><strong>(b) Predict the salary of a female with IQ of 110 and a GPA of 4.0.</strong></p>
 <p>We simply multiply the predictors to the model’s corresponding coefficients.</p>
-<pre><code>(20 * 4.0) + (110 * 0.07) = 87.7.</code></pre>
+<pre><code>(20 * 4.0) + (110 * 0.07) = 87.7</code></pre>
 <p>We expect her to have a salary of $87,700</p>
 <p><strong>(c) True or false: Since the coefficient for the GPA/IQ interaction term is very small, there is very little evidence of an interaction effect. Justify your answer.</strong></p>
 <p>This is true. A coefficient value of 0 means there is no association, and if a value is close, there is little association. A slight positive value suggests there is a weak, positive relationship, but a value so small may be negligible.</p>
@@ -207,6 +207,14 @@ lm.fit</code></pre></div>
 ##    Carseats$USYes  
 ##           1.20057</code></pre>
 <p><strong>(b) Provide an interpretation of each coefficient in the model. Be careful—some of the variables in the model are qualitative!</strong></p>
+<p>Our Intercept is 13.04 – when all predictors are averaged, we can expect sales of $13,040</p>
+<p>The coefficient of price is -0.05446. As price increases, sales marginally decrease, but this coefficient is so small it is likely negligible.</p>
+<p>Stores in urban locations exhibit marginally lower sales. Once again, -0.022 is such a small coefficient, we can probably disregard this.</p>
+<p>There is a small, positive relationship between a U.S. store location and an increase in sales.</p>
+<p><strong>(c) Write out the model in equation form, being careful to handle the qualitative variables properly.</strong></p>
+<p>Sales = β<sub>0</sub> + β<sub>1</sub>Price + β<sub>2</sub>UrbanYes + β<sub>3</sub>USYes + β<sub>4</sub> + β<sub>5</sub></p>
+<p><strong>(d) For which of the predictors can you reject the null hypothesis H0 : β<sub>j</sub> = 0?</strong></p>
+<p>We must look at the p-values</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(lm.fit)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -229,45 +237,45 @@ lm.fit</code></pre></div>
 ## Residual standard error: 2.472 on 396 degrees of freedom
 ## Multiple R-squared:  0.2393, Adjusted R-squared:  0.2335 
 ## F-statistic: 41.52 on 3 and 396 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>Our Intercept is 13.04 – when all predictors are averaged, we can expect sales of $13,040</p>
-<p>The coefficient of price is -0.05446. As price increases, sales marginally decrease, but this coefficient is so small it is likely negligible.</p>
-<p>Stores in urban locations exhibit marginally lower sales. Once again, -0.022 is such a small coefficient, we can probably disregard this.</p>
-<p>There is a small, positive relationship between a U.S. store location and an increase in sales.</p>
-<p><strong>(c) Write out the model in equation form, being careful to handle the qualitative variables properly.</strong></p>
-<p><strong>(d) For which of the predictors can you reject the null hypothesis H0 : βj = 0?</strong></p>
-<p>We can reject the null hypothesis for Price and USYes, as these p-values are both 2<sup>-16</sup> <strong>(e) On the basis of your response to the previous question, fit a smaller model that only uses the predictors for which there is evidence of association with the outcome.</strong></p>
-<ol start="6" style="list-style-type: lower-alpha">
-<li><p>How well do the models in (a) and (e) fit the data?</p></li>
-<li><p>Using the model from (e), obtain 95 % confidence intervals for the coefficient(s).</p></li>
-<li><p>Is there evidence of outliers or high leverage observations in the model from (e)?</p></li>
-</ol>
+<p>We can reject the null hypotheses for Price and USYes, as these p-values are both 2<sub>-16</sub></p>
+<p><strong>(e) On the basis of your response to the previous question, fit a smaller model that only uses the predictors for which there is evidence of association with the outcome.</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lm.smallFit =<span class="st"> </span><span class="kw">lm</span>(Carseats$Sales~Carseats$Price +<span class="st"> </span>Carseats$US)</code></pre></div>
+<p><strong>(f) How well do the models in (a) and (e) fit the data?</strong></p>
+<p>We can measure the quality of fit with MSE (for continuous data) and</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(lm.fit)$sigma <span class="co">#RSE fit</span></code></pre></div>
+<pre><code>## [1] 2.472492</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(lm.smallFit)$sigma <span class="co">#RSE smallFit</span></code></pre></div>
+<pre><code>## [1] 2.469397</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(lm.fit)$r.sq <span class="co">#R^2 fit</span></code></pre></div>
+<pre><code>## [1] 0.2392754</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(lm.smallFit)$r.sq <span class="co">#R^2 smallFit</span></code></pre></div>
+<pre><code>## [1] 0.2392629</code></pre>
+<p>The models fit the data about the same, though the original fit has a larger R<sub>2</sub>, so it is a slightly better fit. Both are much closer to 0 than 1, so neither is a very good fit.</p>
+<p><strong>(g) Using the model from (e), obtain 95% confidence intervals for the coefficient(s).</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(lm.smallFit, <span class="dt">level =</span> <span class="fl">0.95</span>)</code></pre></div>
+<pre><code>##                      2.5 %      97.5 %
+## (Intercept)    11.79032020 14.27126531
+## Carseats$Price -0.06475984 -0.04419543
+## Carseats$USYes  0.69151957  1.70776632</code></pre>
+<p><strong>(h) Is there evidence of outliers or high leverage observations in the model from (e)?</strong></p>
 </div>
 <div id="exercise-13-in-this-exercise-you-will-create-some-simulated-data-and-will-fit-simple-linear-regression-models-to-it.-make-sure-to-use-set.seed1-prior-to" class="section level4">
 <h4>Exercise 13: In this exercise you will create some simulated data and will fit simple linear regression models to it. Make sure to use set.seed(1) prior to</h4>
 <p>starting part (a) to ensure consistent results.</p>
-<ol style="list-style-type: lower-alpha">
-<li>Using the rnorm() function, create a vector, x, containing 100 observations drawn from a N(0, 1) distribution. This represents a feature, X.</li>
-</ol>
+<p><strong>(a) Using the rnorm() function, create a vector, x, containing 100 observations drawn from a N(0, 1) distribution. This represents a feature, X.</strong></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>)</code></pre></div>
-<ol start="2" style="list-style-type: lower-alpha">
-<li>Using the rnorm() function, create a vector, eps, containing 100 observations drawn from a N(0, 0.25) distribution i.e. a normal distribution with mean zero and variance 0.25.</li>
-</ol>
+<p><strong>(b) Using the rnorm() function, create a vector, eps, containing 100 observations drawn from a N(0, 0.25) distribution i.e. a normal distribution with mean zero and variance 0.25.</strong></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">eps =<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="kw">sqrt</span>(<span class="fl">0.25</span>))</code></pre></div>
-<ol start="3" style="list-style-type: lower-alpha">
-<li><p>Using x and eps, generate a vector y according to the model Y = −1+0.5X + . (3.39) What is the length of the vector y? What are the values of β0 and β1 in this linear model?</p></li>
-<li>Create a scatterplot displaying the relationship between x and</li>
-</ol>
-<ol start="25" style="list-style-type: lower-alpha">
-<li>Comment on what you observe.</li>
-</ol>
-<ol start="5" style="list-style-type: lower-alpha">
-<li><p>Fit a least squares linear model to predict y using x. Comment on the model obtained. How do βˆ0 and βˆ1 compare to β0 and β1?</p></li>
-<li><p>Display the least squares line on the scatterplot obtained in (d). Draw the population regression line on the plot, in a different color. Use the legend() command to create an appropriate legend.</p></li>
-<li><p>Now fit a polynomial regression model that predicts y using x and x2. Is there evidence that the quadratic term improves the model fit? Explain your answer.</p></li>
-<li><p>Repeat (a)–(f) after modifying the data generation process in such a way that there is less noise in the data. The model (3.39) should remain the same. You can do this by decreasing the variance of the normal distribution used to generate the error term in (b). Describe your results.</p></li>
-<li><p>Repeat (a)–(f) after modifying the data generation process in such a way that there is more noise in the data. The model (3.39) should remain the same. You can do this by increasing the variance of the normal distribution used to generate the error term in (b). Describe your results.</p></li>
-<li><p>What are the confidence intervals for β0 and β1 based on the original data set, the noisier data set, and the less noisy data set? Comment on your results.</p></li>
-</ol>
+<p><strong>(c) Using x and eps, generate a vector y according to the model</strong></p>
+<p><strong>Y = −1+0.5X + e</strong></p>
+<p><strong>What is the length of the vector y? What are the values of β<sub>0</sub> and β<sub>1</sub> in this linear model?</strong></p>
+<p><strong>(d) Create a scatterplot displaying the relationship between x and y. Comment on what you observe.</strong></p>
+<p><strong>(e) Fit a least squares linear model to predict y using x. Comment on the model obtained. How do β<sub>0</sub> and β<sub>1</sub> compare to β<sub>0</sub> and β<sub>1</sub>?</strong></p>
+<p><strong>(f) Display the least squares line on the scatterplot obtained in (d). Draw the population regression line on the plot, in a different color. Use the legend() command to create an appropriate legend.</strong></p>
+<p><strong>(g) Now fit a polynomial regression model that predicts y using x and x<sub>2</sub>. Is there evidence that the quadratic term improves the model fit? Explain your answer.</strong></p>
+<p><strong>(h) Repeat (a)–(f) after modifying the data generation process in such a way that there is less noise in the data. The model in (c) should remain the same. You can do this by decreasing the variance of the normal distribution used to generate the error term in (b). Describe your results.</strong></p>
+<p><strong>(i) Repeat (a)–(f) after modifying the data generation process in such a way that there is more noise in the data. The model in (c) should remain the same. You can do this by increasing the variance of the normal distribution used to generate the error term in (b). Describe your results.</strong></p>
+<p><strong>(j) What are the confidence intervals for β<sub>0</sub> and β<sub>1</sub> based on the original data set, the noisier data set, and the less noisy data set? Comment on your results.</strong></p>
 <hr />
 </div>
 </div>
