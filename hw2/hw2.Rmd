@@ -208,6 +208,7 @@ on the model obtained. How do β<sub>0</sub> and β<sub>1</sub> compare to β<su
 
 ```{r}
 ls.fit = lm(Y~x)
+summary(ls.fit)
 ```
 
 **(f) Display the least squares line on the scatterplot obtained in (d).
@@ -226,20 +227,11 @@ and x<sup>2</sup>. Is there evidence that the quadratic term improves the
 model fit? Explain your answer.**
 
 ```{r}
-lm.fit = lm(Y~x + x^2)
-summary(lm.fit)
+lm.fit2 = lm(Y~x + x^2)
+summary(lm.fit2)
 ```
 
 Based on the provided statistics, the quadratic term has no effect on the model fit. RSE, R<sup>2</sup>, and F-statistic are all identical in the original and the quadratic model.
-
-```{r}
-# (e) fit a least squares linear regression model. Comment
-# on the model obtained. How do β<sub>0</sub> and β<sub>1</sub> compare to #
-# β<sub>0</sub> and β<sub>1</sub>?**
-
-ls.fit = lm(Y~x)
-```
-
 
 Our R<sup>2</sup> has raised significantly from the original model's, so we may say the quadratic term has improved the model fit
 
