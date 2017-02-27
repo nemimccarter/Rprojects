@@ -249,15 +249,38 @@ should remain the same. You can do this by decreasing the variance
 of the normal distribution used to generate the error term
  in (b). Describe your results.**
 
-sd = sqrt(var), so let's try decreasing sd. we will divide each by 10
+sd = sqrt(var), so let's try decreasing sd. we will divide eps' sd by 10
 ```{r}
-x = rnorm(100, mean = 0, sd = (1 / 10))
+x = rnorm(100, mean = 0, sd = 1)
 eps = rnorm(100, mean = 0, sd = sqrt(0.25 / 10))
 Y = -1 + (0.5 * x) + eps
 # (d) create a scatterplot, comment on observations
 plot(x, Y)
 ```
 
+The shape here is decidedly more linear with fewer outliers. It more cloesly represents a simple regression line.
+
+```{r}
+# (e) fit a least squares linear regression model. Comment
+# on the model obtained. How do β^<sub>0</sub> and β^<sub>1</sub> compare to
+# β<sub>0</sub> and β<sub>1</sub>?**
+
+ls.fitLessNoise = lm(Y~x)
+summary(ls.fitLessNoise)
+```
+
+
+
+```{r}
+# (f) Display the least squares line on the scatterplot obtained in (d).
+# Draw the population regression line on the plot, in a different
+# color. Use the legend() command to create an appropriate legend.
+
+plot(x, Y)
+abline(ls.fitLessNoise, col = 3)
+abline(-1, 0.5, col = 4)
+legend(1,-1.5, legend = c("least squares", "pop. regression"), col=3:4, lwd = 3)
+```
 
 **(i) Repeat (a)–(f) after modifying the data generation process in
 such a way that there is more noise in the data. The model
@@ -265,14 +288,37 @@ in (c) should remain the same. You can do this by increasing
 the variance of the normal distribution used to generate the
 error term  in (b). Describe your results.**
 
-We will multiply each sd by 10
+We will multiply eps' sd by 10
 ```{r}
-x = rnorm(100, mean = 0, sd = (10))
+x = rnorm(100, mean = 0, sd = 1)
 eps = rnorm(100, mean = 0, sd = sqrt(2.5))
 Y = -1 + (0.5 * x) + eps
 # (d) create a scatterplot, comment on observations
 plot(x, Y)
 ```
+
+The data now has virtually no shape. There is no discernible relationship between x and Y
+
+```{r}
+# (e) fit a least squares linear regression model. Comment
+# on the model obtained. How do β^<sub>0</sub> and β^<sub>1</sub> compare to 
+# β<sub>0</sub> and β<sub>1</sub>?**
+
+ls.fitMoreNoise = lm(Y~x)
+```
+
+
+
+```{r}
+# (f) Display the least squares line on the scatterplot obtained in (d).
+# Draw the population regression line on the plot, in a different
+# color. Use the legend() command to create an appropriate legend.
+plot(x, Y)
+abline(ls.fitMoreNoise, col = 3)
+abline(-1, 0.5, col = 4)
+legend(1,-1.8, legend = c("least squares", "pop. regression"), col=3:4, lwd = 3)
+```
+
 
 **(j) What are the confidence intervals for β<sub>0</sub> and β<sub>1</sub> based on the original data set, the noisier data set, and the less noisy data
 set? Comment on your results.**
@@ -280,19 +326,22 @@ set? Comment on your results.**
 Original data set
 
 ```{r}
+confint(ls.fit)
 ```
 
 Less noisy data set
 
 ```{r}
+confint(ls.fitLessNoise)
 ```
 
 More noisy data set
 
 ```{r}
+confint(ls.fitMoreNoise)
 ```
 
-
+As we'd expect, the less noisy data set has the most narrow confidence interval, since its data have all been squeezed together. The noisy data set has the widest interval, because its data is scattered everywhere. The original set falls somewhere in between.
 
 
 
