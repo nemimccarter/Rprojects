@@ -181,24 +181,67 @@ eps = rnorm(100, mean = 0, sd = sqrt(0.25))
 
 **(c) Using x and eps, generate a vector y according to the model**
 
-**Y = −1+0.5X + e**
+<center>**Y = −1+0.5X + ε**</center>
+
 
 **What is the length of the vector y? What are the values of β<sub>0</sub>
 and β<sub>1</sub> in this linear model?**
 
+```{r}
+Y = -1 + (0.5 * x) + eps
+length(Y)
+```
+
+The length of Y is 100. β<sub>0</sub> = -1 and β<sub>1</sub> = 0.5
+
 **(d) Create a scatterplot displaying the relationship between x and
 y. Comment on what you observe.**
 
+```{r}
+plot(x, Y)
+```
+
+There is a general positive relationship between x and Y -- as x increases, Y also increases.
+
 **(e) Fit a least squares linear model to predict y using x. Comment
 on the model obtained. How do β<sub>0</sub> and β<sub>1</sub> compare to β<sub>0</sub> and β<sub>1</sub>?**
+
+```{r}
+ls.fit = lm(Y~x)
+```
 
 **(f) Display the least squares line on the scatterplot obtained in (d).
 Draw the population regression line on the plot, in a different
 color. Use the legend() command to create an appropriate legend.**
 
+```{r}
+plot(x, Y)
+abline(ls.fit, col = 3)
+abline(-1, 0.5, col = 4)
+legend(1,-1.5, legend = c("least squares", "pop. regression"), col=3:4, lwd = 3)
+```
+
 **(g) Now fit a polynomial regression model that predicts y using x
-and x<sub>2</sub>. Is there evidence that the quadratic term improves the
+and x<sup>2</sup>. Is there evidence that the quadratic term improves the
 model fit? Explain your answer.**
+
+```{r}
+lm.fit = lm(Y~x + x^2)
+summary(lm.fit)
+```
+
+Comments here
+
+```{r}
+# (e) fit a least squares linear regression model. Comment
+# on the model obtained. How do β<sub>0</sub> and β<sub>1</sub> compare to #
+# β<sub>0</sub> and β<sub>1</sub>?**
+
+ls.fit = lm(Y~x)
+```
+
+
+Our R<sup>2</sup> has raised significantly from the original model's, so we may say the quadratic term has improved the model fit
 
 **(h) Repeat (a)–(f) after modifying the data generation process in
 such a way that there is less noise in the data. The model in (c)
@@ -206,15 +249,48 @@ should remain the same. You can do this by decreasing the variance
 of the normal distribution used to generate the error term
  in (b). Describe your results.**
 
+sd = sqrt(var), so let's try decreasing sd. we will divide each by 10
+```{r}
+x = rnorm(100, mean = 0, sd = (1 / 10))
+eps = rnorm(100, mean = 0, sd = sqrt(0.25 / 10))
+Y = -1 + (0.5 * x) + eps
+# (d) create a scatterplot, comment on observations
+plot(x, Y)
+```
+
+
 **(i) Repeat (a)–(f) after modifying the data generation process in
 such a way that there is more noise in the data. The model
 in (c) should remain the same. You can do this by increasing
 the variance of the normal distribution used to generate the
 error term  in (b). Describe your results.**
 
+We will multiply each sd by 10
+```{r}
+x = rnorm(100, mean = 0, sd = (10))
+eps = rnorm(100, mean = 0, sd = sqrt(2.5))
+Y = -1 + (0.5 * x) + eps
+# (d) create a scatterplot, comment on observations
+plot(x, Y)
+```
+
 **(j) What are the confidence intervals for β<sub>0</sub> and β<sub>1</sub> based on the original data set, the noisier data set, and the less noisy data
 set? Comment on your results.**
 
+Original data set
+
+```{r}
+```
+
+Less noisy data set
+
+```{r}
+```
+
+More noisy data set
+
+```{r}
+```
 
 
 
