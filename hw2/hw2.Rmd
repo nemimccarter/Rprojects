@@ -230,7 +230,7 @@ lm.fit = lm(Y~x + x^2)
 summary(lm.fit)
 ```
 
-Comments here
+Based on the provided statistics, the quadratic term has no effect on the model fit. RSE, R<sup>2</sup>, and F-statistic are all identical in the original and the quadratic model.
 
 ```{r}
 # (e) fit a least squares linear regression model. Comment
@@ -262,8 +262,8 @@ The shape here is decidedly more linear with fewer outliers. It more cloesly rep
 
 ```{r}
 # (e) fit a least squares linear regression model. Comment
-# on the model obtained. How do β^<sub>0</sub> and β^<sub>1</sub> compare to
-# β<sub>0</sub> and β<sub>1</sub>?**
+# on the model obtained. How do β^0 and β^1 compare to
+# β0 and β1?
 
 ls.fitLessNoise = lm(Y~x)
 summary(ls.fitLessNoise)
@@ -301,8 +301,8 @@ The data now has virtually no shape. There is no discernible relationship betwee
 
 ```{r}
 # (e) fit a least squares linear regression model. Comment
-# on the model obtained. How do β^<sub>0</sub> and β^<sub>1</sub> compare to 
-# β<sub>0</sub> and β<sub>1</sub>?**
+# on the model obtained. How do β^0 and β^1 compare to 
+# β0 and β1?
 
 ls.fitMoreNoise = lm(Y~x)
 ```
