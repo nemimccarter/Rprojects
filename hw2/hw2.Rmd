@@ -25,9 +25,6 @@ library(ggplot2)
 
 Null Hypotheses:
 
-
-Intercept: 
-
 TV: There is no relationship between TV advertising and sales.
     The p-value is below 1%, so we may reject the null hypothesis.
     That is, there is some relationship between TV ads and sales.
@@ -41,26 +38,48 @@ newspaper: There is not relationship between newspaper advertising and sales
 
 #### Exercise 3:  suppose we have a data set with five predictors, X1 = GPA, X2 = IQ, X3 = Gender (1 for Female and 0 for Male), X4 = Interaction between GPA and IQ, and X5 = Interaction between GPA and Gender. The response is starting salary after graduation (in thousands of dollars). suppose we use least squares to fit the model, and get β<sub>0</sub> = 50, β<sub>1</sub> = 20, β<sub>2</sub> = 0.07, β<sub>3</sub> = 35, β<sub>4</sub> = 0.01, β<sub>5</sub> = −10.
 
-Our intercept coefficient is 50; Our average salary is $50,000.
+Our intercept coefficient is 50, so our average salary is $50,000.
+
+male: (gender = 0)   50 + 20 k<sub>1</sub> + 0.07 k<sub>2</sub> + 0.01(k<sub>1</sub> * k<sub>2</sub>) 
+
+female: (gender = 1) 50 + 20 k<sub>1</sub> + 0.07 k<sub>2</sub> + 35 + 0.01(k<sub>1</sub> * k<sub>2</sub>) - 10k<sub>1</sub>
 
 **(a) Which answer is correct, and why?**
 
 **i. For a fixed value of IQ and GPA, males earn more on average
 than females.**
 
-If IQ and GPA are fixed, then the only predictor is gender, X3, whose corresponding prediction is β<sub>3</sub> = 35. 
+If IQ and GPA are fixed, we ignore predictors β<sub>1</sub> and β<sub>2</sub> to arrive at the following formulas
 
 **ii. For a fixed value of IQ and GPA, females earn more on
 average than males.**
 
-Same as above, our only predictor is X3, and β<sub>3</sub> = 35.
-
 **iii. For a fixed value of IQ and GPA, males earn more on average
 than females provided that the GPA is high enough.**
+
+Let's take a look at output of each function for some given values of IQ and GPA.
+
+GPA (k<sub>1</sub>: 4.0
+IQ (k<sub>2</sub>): 120
+
+male: (gender = 0)   50 + 20(4.0) + 0.07(120) + 0.01(4.0 * 120) 
+
+female: (gender = 1) 50 + 20(4.0) + 0.07(120) + 35 + 0.01(4.0 * 120) - 10(4.0)
+
+male   = 143.2
+female = 138.2
+
+At equal values for IQ and GPA, males earn more than females. i is correct, ii is false.
+
+
+
+IQ: 140
+GPA: 2.0
 
 
 **iv. For a fixed value of IQ and GPA, females earn more on
 average than males provided that the GPA is high enough.**
+
 
 
 **(b) Predict the salary of a female with IQ of 110 and a GPA of 4.0.**
@@ -68,16 +87,16 @@ average than males provided that the GPA is high enough.**
 We simply multiply the predictors to the model's corresponding coefficients.
 
 ``` 
-(20 * 4.0) + (110 * 0.07) = 87.7
+50 + (20 * 4.0) + (0.07 * 110) + 35 + (0.01 * 4.0 * 110) - (10 * 4.0)
 ```
 
-We expect her to have a salary of $87,700
+We expect her to have a salary of $137,10.
 
 **(c) True or false: Since the coefficient for the GPA/IQ interaction
 term is very small, there is very little evidence of an interaction
 effect. Justify your answer.**
 
-This is true. A coefficient value of 0 means there is no association, and if a value is close, there is little association. A slight positive value suggests there is a weak, positive relationship, but a value so small may be negligible.
+This is false. A coefficient tells us the intensity of the interaction. It has little bearing on its statistical significance. We must look at the p-value of the coefficient to determine this.
 
 
 * * *
