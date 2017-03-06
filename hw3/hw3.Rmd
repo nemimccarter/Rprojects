@@ -1,0 +1,50 @@
+---
+title: "Chapter 4 HW"
+author: "Nehemya McCarter-Ribakoff"
+date: "16 March 2017"
+output: 
+  html_document: 
+    fig_height: 4
+    highlight: pygments
+    theme: spacelab
+---
+
+```{r setup, include=FALSE}
+# DO NOT ALTER CODE IN THIS CHUNK
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+```
+
+* * *
+## Conceptual Questions
+
+
+#### Exercise 3:
+
+#### Exercise 6:
+
+* * *
+
+
+## Applied Questions
+
+#### Exercise 10:
+
+#### Exercise 12:
+
+
+* * *
+
+## Teamwork report
+
+<!--
+For each team member, write their name, whether they attended the lab session, 
+whether they were the author for this week, and their contribution to the lab 
+report (as a percentage). The percentages should add up to 100.
+-->
+
+| Team member             | Conceptual | Applied  | Contribution % |
+|:------------------------|:----------:|:--------:|---------------:|
+| Nehemya                 |    Yes     |   Yes    | 100%           |
+| Total                   |            |          | 100%           |
