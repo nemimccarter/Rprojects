@@ -22,33 +22,33 @@ library(ggplot2)
 
 #### Exercise 3: This problem relates to the QDA model, in which the observations within each class are drawn from a normal distribution with a class-specific mean vector and a class-specific covariance matrix. We consider the simple case where p = 1. 
 
-#### Suppose that we have _K_ classes, and that if an observation belongs to the _k_th class, then _X_ comes from a one-dimensional normal distribution, _X ~ N(μ<sub>k</sub> σ<sup>2</sup><sub>k</sub>)_. Recall that the density function for the one-dimensional normal distribution is given in (4.11). Prove that in this case, the Bayes' classifier is _not_ linear. Argue that it is in fact quadratic.
+##### Suppose that we have _K_ classes, and that if an observation belongs to the _k_th class, then _X_ comes from a one-dimensional normal distribution, _X ~ N(μ<sub>k</sub> σ<sup>2</sup><sub>k</sub>)_. Recall that the density function for the one-dimensional normal distribution is given in (4.11). Prove that in this case, the Bayes' classifier is _not_ linear. Argue that it is in fact quadratic.
 
-#### _Hint: For this problem, you should follow the arguments laid out in Section 4.4.2, but without making the assumption that σ<sup>2</sup><sub>1</sub> = ... = σ<sup>2</sup><sub>k</sub>_.
+##### _Hint: For this problem, you should follow the arguments laid out in Section 4.4.2, but without making the assumption that σ<sup>2</sup><sub>1</sub> = ... = σ<sup>2</sup><sub>k</sub>_.
+
 
 
 #### Exercise 6: Suppose we collect data for a group of students in a statistics class with variables X1 = hours studied, X2 = undergrad GPA, and Y = receive an A. We fit a logistic regression and produce estimated coefficient, β<sub>0</sub> = −6, β<sub>1</sub> = 0.05, β<sub>2</sub> = 1.
 
 ##### (a) Estimate the probability that a student who studies for 40 h and has an undergrad GPA of 3.5 gets an A in the class.
 
-```
+<pre>
 p = exp(β<sub>0</sub> + X<sub>1</sub>β<sub>1</sub> + X<sub>2</sub>β<sub>2</sub>) / (1 + exp(β<sub>0</sub> + X<sub>1</sub>β<sub>1</sub> + X<sub>2</sub>β<sub>2</sub>))
 p = exp(-6 + (40 * 0.05) + (3.5 * 1)) / (1 + exp(-6 + (40 * 0.05) + (3.5 * 1)))
 p = 0.3775
-```
+</pre>
+
 ##### (b) How many hours would the student in part (a) need to study to have a 50 % chance of getting an A in the class?
 
-```
+<pre>
 log(p(x)/(1 - p(x))) = β<sub>0</sub> + X<sub>1</sub>β<sub>1</sub> + X<sub>2</sub>β<sub>2</sub>
-
 X<sub>1</sub>β<sub>1</sub> = log(p(x)/(1 - p(x))) - β<sub>0</sub> - X<sub>2</sub>β<sub>2</sub>
-
 X<sub>1</sub> = log(p(x)/(1 - p(x))) - β<sub>0</sub> - X<sub>2</sub>β<sub>2</sub> / β<sub>1</sub>
-
 X<sub>1</sub> = (log(0.50/(1 - 0.50)) - (-6) - (3.5 * 1)) / 0.05
 X<sub>1</sub> = 50
-```
+
 The student would have to study 50 hours to have a 50% chance of getting an A in the class.
+</pre>
 
 * * *
 
@@ -65,22 +65,33 @@ summary(Weekly)
 pairs(Weekly)
 ```
 
-The volume of shares traded exhibits a general trend upward with respect to time.
+Aside from volume of shares traded following a general trend upward with respect to time, I see no discernible patterns in the data.
 
 ##### (b) Use the full data set to perform a logistic regression with Direction as the response and the five lag variables plus Volume as predictors. Use the summary function to print the results. Do any of the predictors appear to be statistically significant? If so, which ones?
 
+```{r}
+attach(Weekly)
 glm.fit = glm(Weekly$Direction ~ Weekly$Lag1 + Weekly$Lag2 + Weekly$Lag3 + Weekly$Lag4 + Weekly$Lag5 + Weekly$Volume, data=Smarket,family=binomial)
-
 summary(glm.fit)
+```
 
 Lag1 (p = 0.0019) and Lag3 (p = 0.0296) both appear to be statistically significant.
 
 ##### (c) Compute the confusion matrix and overall fraction of correct predictions. Explain what the confusion matrix is telling you about the types of mistakes made by logistic regression.
 
-glm.probs=predict(glm.fit,type="response") # predict P(Y=1|X=each x)
-contrasts(Direction) # how did R code "Y=1"
-# Down = 0, Up = 1
+```{r}
+glm.probs=predict(glm.fit, type="response") # predict P(Y=1|X=each x)
+glm.pred=rep("Down",nrow(Weekly))
+glm.pred[glm.probs>.5] = "Up"
+table(glm.pred, Direction)
+```
 
+This confusion matrix compares the model's predictions to the actual values in the data set. Here, of the 601 _actual_ downs, our model misclassified 457 as ups. Of the 648 actual ups, our model misclassified 141 as ups.
+
+Misclassification rate of downs: 457/601 = 0.76
+Misclassification rate of ups: 141/648 = 0.22
+
+The model seems to really struggle with classifying ups. Its performance overall is not very good.
 
 ##### (d) Now fit the logistic regression model using a training data period from 1990 to 2008, with Lag2 as the only predictor. Compute the confusion matrix and the overall fraction of correct predictions for the held out data (that is, the data from 2009 and 2010).
 
