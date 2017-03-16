@@ -26,8 +26,6 @@ library(ggplot2)
 
 ##### _Hint: For this problem, you should follow the arguments laid out in Section 4.4.2, but without making the assumption that σ<sup>2</sup><sub>1</sub> = ... = σ<sup>2</sup><sub>k</sub>_.
 
-
-
 #### Exercise 6: Suppose we collect data for a group of students in a statistics class with variables X1 = hours studied, X2 = undergrad GPA, and Y = receive an A. We fit a logistic regression and produce estimated coefficient, β<sub>0</sub> = −6, β<sub>1</sub> = 0.05, β<sub>2</sub> = 1.
 
 ##### (a) Estimate the probability that a student who studies for 40 h and has an undergrad GPA of 3.5 gets an A in the class.
@@ -98,6 +96,7 @@ The model seems to really struggle with classifying ups. Its performance overall
 ```{r}
 train = subset(Weekly, Weekly$Year >= 1990 & Weekly$Year < 2009)
 test = subset(Weekly, Weekly$Year > 2008)
+
 glm2 = glm(Direction ~ Lag2, train, family="binomial")
 glm2.prob = predict(glm2, test, type="response")
 glm2.pred = rep("Down", nrow(test))
@@ -109,6 +108,7 @@ table(glm2.pred, test$Direction)
 ##### (e) Repeat (d) using LDA.
 
 ```{r}
+library(MASS) # for LDA to knit
 lda1 = lda(Direction ~ Lag2, train)
 lda1.prob = predict(lda1, test, type="response")
 lda1.pred = lda1.prob$class
@@ -262,8 +262,10 @@ PlotPower = function(inputRange, inputPower) {
   for(i in xVector) {
     digitsSquared[i] = Power3(xVector[i], inputPower)
   }
-  plot(xVector, digitsSquared, main= "A sequence and its squares", xlab="input", ylab="square")
+  plot(xVector, digitsSquared, main= "A sequence to a power", xlab="input", ylab="To the power given")
 }
+
+PlotPower(1:10, 3)
 ```
 
 * * *
