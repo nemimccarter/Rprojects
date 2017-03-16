@@ -96,51 +96,96 @@ The model seems to really struggle with classifying ups. Its performance overall
 ##### (d) Now fit the logistic regression model using a training data period from 1990 to 2008, with Lag2 as the only predictor. Compute the confusion matrix and the overall fraction of correct predictions for the held out data (that is, the data from 2009 and 2010).
 
 ```{r}
-train=(Year < 2008)
-Smarket.2008 = Smarket[!train,]
-Direction.range=Direction[!train]
-glm.fit=glm(Direction ~ Lag2, family=binomial, subset=train) 
-glm.probs=predict(glm.fit,data=Smarket.2008,type="response") 
-glm.pred=rep("Down",250)
-glm.pred[glm.probs>.5]="Up"
-table(glm.pred,Direction.range)
+train = subset(Weekly, Weekly$Year >= 1990 & Weekly$Year < 2009)
+test = subset(Weekly, Weekly$Year > 2008)
+glm2 = glm(Direction ~ Lag2, train, family="binomial")
+glm2.prob = predict(glm2, test, type="response")
+glm2.pred = rep("Down", nrow(test))
+glm2.pred[glm2.prob > 0.5] = "Up"
+table(glm2.pred, test$Direction)
+(9+56)/(9+56+34+5)
 ```
 
 ##### (e) Repeat (d) using LDA.
 
 ```{r}
-lda.fit=lda(Direction~Lag2,data=Smarket,subset=train) #lda fit 
-lda(Direction~Lag2,data=Smarket[which(Year>2008),])
-plot(lda.fit)
-lda.pred=predict(lda.fit, Smarket.2008)
-lda.fit=glm(Direction ~ Lag2, family=binomial, subset=train)
-lda.probs=predict(lda.fit,Smarket.1990to2000,type="response")
-lda.pred=rep("Down",train)
-lda.pred[lda.probs>.5]="Up"
-table(lda.pred, Direction.range)
+lda1 = lda(Direction ~ Lag2, train)
+lda1.prob = predict(lda1, test, type="response")
+lda1.pred = lda1.prob$class
+table(lda1.pred, test$Direction)
+(9 + 56)/(9 + 5 + 34 + 56)
 ```
 
 ##### (f) Repeat (d) using QDA.
 
 ```{r}
-qda.fit=qda(Direction~Lag1+Lag2,data=Smarket,subset=train)
-qda.fit
-qda.class=predict(qda.fit,Smarket.2005)$class
-table(qda.class,Direction.2005)
+train = subset(Weekly, Weekly$Year >= 1990 & Weekly$Year < 2009)
+test = subset(Weekly, Weekly$Year > 2008)
+qda1 = qda(Direction ~ Lag2, train)
+qda1.prob = predict(qda1, test, type="response")
+qda1.pred = qda1.prob$class
+table(qda1.pred, test$Direction)
+61/(61+43)
 ```
 
 ##### (g) Repeat (d) using KNN with K = 1.
 
 ```{r}
-
+library(class)
+train.X = as.matrix(train$Lag2)
+test.X = as.matrix(test$Lag2)
+train.Direction = train$Direction
+k = 1
+set.seed(99)
+knn.pred = knn(train.X, test.X, train.Direction,k)
+table(knn.pred, test$Direction)
+(21+31)/(21+30+22+31)
 ```
 
 ##### (h) Which of these methods appears to provide the best results on this data?
 
-
+Logistic Regression and LDA performed the best, with correct prediction rate of 0.63 
 
 ##### (i) Experiment with different combinations of predictors, including possible transformations and interactions, for each of the methods. Report the variables, method, and associated confusion matrix that appears to provide the best results on the held out data. Note that you should also experiment with values for K in the KNN classifier
 
+```{r}
+glm2 = glm(Direction ~ Lag1 + Lag2, train, family="binomial")
+glm2.prob = predict(glm2, test, type="response")
+glm2.pred = rep("Down", nrow(test))
+glm2.pred[glm2.prob > 0.5] = "Up"
+table(glm2.pred, test$Direction)
+(7+53)/(7+53+8+36)
+```
+
+Including Lag1 into the model worsens the Logistic Regression performance, reducing it from .63 to .58
+
+```{r}
+lda1 = lda(Direction ~ Lag3, train)
+lda1.prob = predict(lda1, test, type="response")
+lda1.pred = lda1.prob$class
+table(lda1.pred, test$Direction)
+61/(43+61)
+```
+LDA performs worse on Lag3 alone, with only .59 compared to its original .63
+
+```{r}
+qda1 = qda(Direction ~ Lag2 + Lag4, train)
+qda1.prob = predict(qda1, test, type="response")
+qda1.pred = qda1.prob$class
+table(qda1.pred, test$Direction)
+(9+47)/(47+9+14+34)
+```
+
+Including Lag4 worsened to QDA's performance as well, now at 0.54
+
+```{r}
+k = 10
+knn.pred = knn(train.X, test.X, train.Direction,k)
+table(knn.pred, test$Direction)
+(19 + 40)/(19 + 40 + 21 + 24)
+```
+
+An increase to k = 10 improves to KNN classifier by about 0.07. This is not a major improvement, considering we are still below 0.60
 
 #### Exercise 12: This problem involves writing functions.
 
