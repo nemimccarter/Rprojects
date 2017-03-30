@@ -24,12 +24,23 @@ library(ggplot2)
 
 ##### (a) Explain how k-fold cross-validation is implemented.
 
+k-fold cross-validation follows the following steps:
+1. divide the set into k parts
+2. remove the first part
+3. fit the model on the remaining k - 1 parts
+4. compute the MSE on the first part
+5. Repeat k times, removing a different part each time
+6. average the k different MSEs
+
 ##### (b) What are the advantages and disadvantages of k-fold cross-validation relative to:
 
 ###### i. The validation set approach?
 
+, but general k-fold CV is more computationally intensive than the validation set approach. However, k-fold CV has the benefit of a non-random answer and typically gets a better estimate of the test error rate (the validation set approach tends to overestimate the test error rate).
+
 ###### ii. LOOCV?
 
+The Leave-One-Out Cross-Validation approach is really just a special case of k-fold CV where k = 1. This approach is less computationally intensive than general k-fold CV, but tends to overestimate the test error rate. Compared to k-fold CV, LOOCV has less bias when k < n, but more variance when k > n. Neither suffers excessively from high bias or variance.
 
 * * *
 
