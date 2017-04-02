@@ -36,11 +36,11 @@ k-fold cross-validation follows the following steps:
 
 ###### i. The validation set approach?
 
-, but general k-fold CV is more computationally intensive than the validation set approach. However, k-fold CV has the benefit of a non-random answer and typically gets a better estimate of the test error rate (the validation set approach tends to overestimate the test error rate).
+The validation set approach is conceptually simple and easier to implement than k-fold CV. However, because its estimate is based on a random division of the sample, its estimate can be highly variable. k-fold CV provides a non-random result. The validation set approach also is based upon only a subset of observations, while k-fold CV gets the full scope of the data provided. This causes the validation set approach to tend to overestimate the test error rate moreso than k-fold CV would in general.
 
 ###### ii. LOOCV?
 
-The Leave-One-Out Cross-Validation approach is really just a special case of k-fold CV where k = 1. This approach is less computationally intensive than general k-fold CV, but tends to overestimate the test error rate. Compared to k-fold CV, LOOCV has less bias when k < n, but more variance when k > n. Neither suffers excessively from high bias or variance.
+The Leave-One-Out Cross-Validation approach is really just a special case of k-fold CV where k = n. This approach is less computationally intensive than general k-fold CV, and the two approaches tend to yield similar results. Compared to k-fold CV, LOOCV has less bias and more variance when k < n, but k-fold CV has a computational advantage under this condition. more variance when k > n. Neither suffers excessively from high bias or variance.
 
 * * *
 
@@ -51,16 +51,36 @@ The Leave-One-Out Cross-Validation approach is really just a special case of k-f
 
 ##### (a) Fit a logistic regression model that uses income and balance to predict default.
 
+```{r}
+library(ISLR)
+glm.fit = glm(Default$default ~ Default$income + Default$balance, data=Default)
+glm.fit
+```
+
 ##### (b) Using the validation set approach, estimate the test error of this model. In order to do this, you must perform the following steps:
 
 ###### i. Split the sample set into a training set and a validation set.
 
+```{r}
+set.seed(1)
+set.train=sample(392,196)
+```
+
 ###### ii. Fit a multiple logistic regression model using only the training observations.
+
+```{r}
+glm.fit = glm(Default$default ~ set.train)
+```
 
 ###### iii. Obtain a prediction of default status for each individual in the validation set by computing the posterior probability of default for that individual, and classifying the individual to the default category if the posterior probability is greater than 0.5.
 
-###### iv. Compute the validation set error, which is the fraction of the observations in the validation set that are misclassified.
+```{r}
 
+```
+###### iv. Compute the validation set error, which is the fraction of the observations in the validation set that are misclassified.
+```{r}
+
+```
 ##### (c) Repeat the process in (b) three times, using three different splits of the observations into a training set and a validation set. Comment on the results obtained.
 
 ##### (d) Now consider a logistic regression model that predicts the probability of default using income, balance, and a dummy variable for student. Estimate the test error for this model using the validation set approach. Comment on whether or not including a dummy variable for student leads to a reduction in the test error rate.
