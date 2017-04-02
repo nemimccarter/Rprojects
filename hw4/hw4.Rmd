@@ -53,7 +53,7 @@ The Leave-One-Out Cross-Validation approach is really just a special case of k-f
 
 ```{r}
 library(ISLR)
-glm.fit = glm(Default$default ~ Default$income + Default$balance, data=Default)
+glm.fit = glm(Default$default ~ Default$income + Default$balance, family=binomial(link="logit"), data=Default)
 glm.fit
 ```
 
