@@ -63,24 +63,30 @@ glm.fit
 
 ```{r}
 set.seed(1)
-set.train=sample(392,196)
+# Default has 10,000 observations
+# Let's use 7500 for training
+set.train=sample(nrow(Default), nrow(Default)*0.5)
 ```
 
 ###### ii. Fit a multiple logistic regression model using only the training observations.
 
 ```{r}
-glm.fit = glm(Default$default ~ set.train)
+glm.trainFit = glm(Default$default ~ Default$income + Default$balance, family=binomial(link=logit), subset=set.train)
+glm.trainFit
 ```
 
 ###### iii. Obtain a prediction of default status for each individual in the validation set by computing the posterior probability of default for that individual, and classifying the individual to the default category if the posterior probability is greater than 0.5.
 
 ```{r}
-
+posteriorProb = predict(glm.trainFit, data=Default[-set.trian,], type="response")
 ```
+
 ###### iv. Compute the validation set error, which is the fraction of the observations in the validation set that are misclassified.
 ```{r}
-
+pred2 = ifelse(posteriorProb > 0.5, "Yes", "No")
+table(pred2, data=Default[-set.train,]$default)
 ```
+
 ##### (c) Repeat the process in (b) three times, using three different splits of the observations into a training set and a validation set. Comment on the results obtained.
 
 ##### (d) Now consider a logistic regression model that predicts the probability of default using income, balance, and a dummy variable for student. Estimate the test error for this model using the validation set approach. Comment on whether or not including a dummy variable for student leads to a reduction in the test error rate.
@@ -89,20 +95,55 @@ glm.fit = glm(Default$default ~ set.train)
 
 ##### (a) Using the summary() and glm() functions, determine the estimated standard errors for the coefficients associated with income and balance in a multiple logistic regression model that uses both predictors.
 
+```{r}
+glm.fit = glm(Default$default ~ Default$income + Default$balance, 
+              family=binomial(link='logit'))
+summary(glm.fit)
+```
+
+Default$income standard error:  4.985e-06
+Default$balance standard error: 2.274e-07
+
 ##### (b) Write a function, boot.fn(), that takes as input the Default data set as well as an index of the observations, and that outputs the coefficient estimates for income and balance in the multiple logistic regression model.
+
+```{r}
+boot.fn = function(data, index) {
+  return(mean(data[index]))
+}
+```
 
 ##### (c) Use the boot() function together with your boot.fn() function to estimate the standard errors of the logistic regression coefficient for income and balance.
 
+```{r}
+boot::boot(Default$income, statistic=boot.fn, R=15)
+boot::boot(Default$balance, statistic=boot.fn, R=15)
+
+```
+
 ##### (d) Comment on the estimated standard errors obtained using the glm() function and using your bootstrap function.
+
 
 #### Exercise 7. In Sections 5.3.2 and 5.3.3, we saw that the cv.glm() function can be used in order to compute the LOOCV test error estimate. Alternatively, one could compute those quantities using just the glm() and 200 predict.glm() functions, and a for loop. You will now take this approach in order to compute the LOOCV error for a simple logistic regression model on the Weekly data set. Recall that in the context of classification problems, the LOOCV error is given in (5.4).
 
 ##### (a) Fit a logistic regression model that predicts Direction using Lag1 and Lag2.
 
+```{r}
+glm.fit = glm(Weekly$Direction ~ Weekly$Lag1 + Weekly$Lag2, family=binomial(link='logit'))
+```
+
 ##### (b) Fit a logistic regression model that predicts Direction using Lag1 and Lag2 using all but the first observation.
 
+```{r}
+glm.fitFirstObsRemoved = glm(Weekly$Direction[2:1089] ~ Weekly$Lag1[2:1089] + Weekly$Lag2[2:1089], family=binomial(link='logit'))
+```
+
 ##### (c) Use the model from (b) to predict the direction of the first observation. You can do this by predicting that the first observation will go up if P(Direction="Up"|Lag1, Lag2) > 0.5. Was this observation correctly classified?
-(d) Write a for loop from i = 1 to i = n, where n is the number of observations in the data set, that performs each of the following steps:
+
+```{r}
+
+```
+
+#####(d) Write a for loop from i = 1 to i = n, where n is the number of observations in the data set, that performs each of the following steps:
 
 ###### i. Fit a logistic regression model using all but the ith observation to predict Direction using Lag1 and Lag2.
 
@@ -113,6 +154,13 @@ glm.fit = glm(Default$default ~ set.train)
 ###### iv. Determine whether or not an error was made in predicting the direction for the ith observation. If an error was made, then indicate this as a 1, and otherwise indicate it as a 0.
 
 ##### (e) Take the average of the n numbers obtained in (d)iv in order to obtain the LOOCV estimate for the test error. Comment on the results.
+
+```{r}
+n = length(Weekly$Direction)
+for (i in n) {
+  glm.fitWithoutI = glm(Weekly$Direction[1:i-1])
+}
+```
 
 * * *
 
