@@ -101,27 +101,37 @@ glm.fit = glm(Default$default ~ Default$income + Default$balance,
 summary(glm.fit)
 ```
 
-Default$income standard error:  4.985e-06
-Default$balance standard error: 2.274e-07
+income standard error:  4.985e-06
+
+balance standard error: 2.274e-07
 
 ##### (b) Write a function, boot.fn(), that takes as input the Default data set as well as an index of the observations, and that outputs the coefficient estimates for income and balance in the multiple logistic regression model.
 
 ```{r}
-boot.fn = function(data, index) {
-  return(mean(data[index]))
+boot.fn <- function(df, trainid) {
+  return(coef(glm(default ~ income + balance, data=df, family=binomial, subset=trainid)))
 }
 ```
 
 ##### (c) Use the boot() function together with your boot.fn() function to estimate the standard errors of the logistic regression coefficient for income and balance.
 
 ```{r}
-boot::boot(Default$income, statistic=boot.fn, R=15)
-boot::boot(Default$balance, statistic=boot.fn, R=15)
-
+boot::boot(Default, boot.fn, R=100)
 ```
 
 ##### (d) Comment on the estimated standard errors obtained using the glm() function and using your bootstrap function.
 
+glm standard errors
+
+income:  4.985e-06
+balance: 2.274e-04
+
+bootstrap standard errors
+
+income:  5.607415e-06
+balance: 2.413098e-04
+
+The bootstrap errors are higher than the glm standard errors, particularly for income. I suspect this may be a flaw in my boot.fn() function.
 
 #### Exercise 7. In Sections 5.3.2 and 5.3.3, we saw that the cv.glm() function can be used in order to compute the LOOCV test error estimate. Alternatively, one could compute those quantities using just the glm() and 200 predict.glm() functions, and a for loop. You will now take this approach in order to compute the LOOCV error for a simple logistic regression model on the Weekly data set. Recall that in the context of classification problems, the LOOCV error is given in (5.4).
 
@@ -155,12 +165,6 @@ glm.fitFirstObsRemoved = glm(Weekly$Direction[2:1089] ~ Weekly$Lag1[2:1089] + We
 
 ##### (e) Take the average of the n numbers obtained in (d)iv in order to obtain the LOOCV estimate for the test error. Comment on the results.
 
-```{r}
-n = length(Weekly$Direction)
-for (i in n) {
-  glm.fitWithoutI = glm(Weekly$Direction[1:i-1])
-}
-```
 
 * * *
 

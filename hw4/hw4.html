@@ -200,16 +200,38 @@ glm.fit</code></pre></div>
 <div id="i.-split-the-sample-set-into-a-training-set-and-a-validation-set." class="section level6">
 <h6>i. Split the sample set into a training set and a validation set.</h6>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
-set.train=<span class="kw">sample</span>(<span class="dv">392</span>,<span class="dv">196</span>)</code></pre></div>
+<span class="co"># Default has 10,000 observations</span>
+<span class="co"># Let's use 7500 for training</span>
+set.train=<span class="kw">sample</span>(<span class="kw">nrow</span>(Default), <span class="kw">nrow</span>(Default)*<span class="fl">0.5</span>)</code></pre></div>
 </div>
 <div id="ii.-fit-a-multiple-logistic-regression-model-using-only-the-training-observations." class="section level6">
 <h6>ii. Fit a multiple logistic regression model using only the training observations.</h6>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm.trainFit =<span class="st"> </span><span class="kw">glm</span>(Default$default ~<span class="st"> </span>Default$income +<span class="st"> </span>Default$balance, <span class="dt">family=</span><span class="kw">binomial</span>(<span class="dt">link=</span>logit), <span class="dt">subset=</span>set.train)
+glm.trainFit</code></pre></div>
+<pre><code>## 
+## Call:  glm(formula = Default$default ~ Default$income + Default$balance, 
+##     family = binomial(link = logit), subset = set.train)
+## 
+## Coefficients:
+##     (Intercept)   Default$income  Default$balance  
+##      -1.208e+01        1.858e-05        6.053e-03  
+## 
+## Degrees of Freedom: 4999 Total (i.e. Null);  4997 Residual
+## Null Deviance:       1457 
+## Residual Deviance: 734.4     AIC: 740.4</code></pre>
 </div>
 <div id="iii.-obtain-a-prediction-of-default-status-for-each-individual-in-the-validation-set-by-computing-the-posterior-probability-of-default-for-that-individual-and-classifying-the-individual-to-the-default-category-if-the-posterior-probability-is-greater-than-0.5." class="section level6">
 <h6>iii. Obtain a prediction of default status for each individual in the validation set by computing the posterior probability of default for that individual, and classifying the individual to the default category if the posterior probability is greater than 0.5.</h6>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">posteriorProb =<span class="st"> </span><span class="kw">predict</span>(glm.trainFit, <span class="dt">data=</span>Default[-set.trian,], <span class="dt">type=</span><span class="st">&quot;response&quot;</span>)</code></pre></div>
 </div>
 <div id="iv.-compute-the-validation-set-error-which-is-the-fraction-of-the-observations-in-the-validation-set-that-are-misclassified." class="section level6">
 <h6>iv. Compute the validation set error, which is the fraction of the observations in the validation set that are misclassified.</h6>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pred2 =<span class="st"> </span><span class="kw">ifelse</span>(posteriorProb &gt;<span class="st"> </span><span class="fl">0.5</span>, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>)
+<span class="kw">table</span>(pred2, <span class="dt">data=</span>Default[-set.train,]$default)</code></pre></div>
+<pre><code>##      data
+## pred2   No  Yes
+##   No  4756  166
+##   Yes   77    1</code></pre>
 </div>
 </div>
 <div id="c-repeat-the-process-in-b-three-times-using-three-different-splits-of-the-observations-into-a-training-set-and-a-validation-set.-comment-on-the-results-obtained." class="section level5">
@@ -223,30 +245,83 @@ set.train=<span class="kw">sample</span>(<span class="dv">392</span>,<span class
 <h4>Exercise 6: We continue to consider the use of a logistic regression model to predict the probability of default using income and balance on the Default data set. In particular, we will now compute estimates for the standard errors of the income and balance logistic regression coefficients in two different ways: (1) using the bootstrap, and (2) using the standard formula for computing the standard errors in the glm() function. Do not forget to set a random seed before beginning your analysis.</h4>
 <div id="a-using-the-summary-and-glm-functions-determine-the-estimated-standard-errors-for-the-coefficients-associated-with-income-and-balance-in-a-multiple-logistic-regression-model-that-uses-both-predictors." class="section level5">
 <h5>(a) Using the summary() and glm() functions, determine the estimated standard errors for the coefficients associated with income and balance in a multiple logistic regression model that uses both predictors.</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm.fit =<span class="st"> </span><span class="kw">glm</span>(Default$default ~<span class="st"> </span>Default$income +<span class="st"> </span>Default$balance, 
+              <span class="dt">family=</span><span class="kw">binomial</span>(<span class="dt">link=</span><span class="st">'logit'</span>))
+<span class="kw">summary</span>(glm.fit)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = Default$default ~ Default$income + Default$balance, 
+##     family = binomial(link = &quot;logit&quot;))
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.4725  -0.1444  -0.0574  -0.0211   3.7245  
+## 
+## Coefficients:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)     -1.154e+01  4.348e-01 -26.545  &lt; 2e-16 ***
+## Default$income   2.081e-05  4.985e-06   4.174 2.99e-05 ***
+## Default$balance  5.647e-03  2.274e-04  24.836  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2920.6  on 9999  degrees of freedom
+## Residual deviance: 1579.0  on 9997  degrees of freedom
+## AIC: 1585
+## 
+## Number of Fisher Scoring iterations: 8</code></pre>
+<p>income standard error: 4.985e-06</p>
+<p>balance standard error: 2.274e-07</p>
 </div>
 <div id="b-write-a-function-boot.fn-that-takes-as-input-the-default-data-set-as-well-as-an-index-of-the-observations-and-that-outputs-the-coefficient-estimates-for-income-and-balance-in-the-multiple-logistic-regression-model." class="section level5">
 <h5>(b) Write a function, boot.fn(), that takes as input the Default data set as well as an index of the observations, and that outputs the coefficient estimates for income and balance in the multiple logistic regression model.</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">boot.fn &lt;-<span class="st"> </span>function(df, trainid) {
+  <span class="kw">return</span>(<span class="kw">coef</span>(<span class="kw">glm</span>(default ~<span class="st"> </span>income +<span class="st"> </span>balance, <span class="dt">data=</span>df, <span class="dt">family=</span>binomial, <span class="dt">subset=</span>trainid)))
+}</code></pre></div>
 </div>
 <div id="c-use-the-boot-function-together-with-your-boot.fn-function-to-estimate-the-standard-errors-of-the-logistic-regression-coefficient-for-income-and-balance." class="section level5">
 <h5>(c) Use the boot() function together with your boot.fn() function to estimate the standard errors of the logistic regression coefficient for income and balance.</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">boot::<span class="kw">boot</span>(Default, boot.fn, <span class="dt">R=</span><span class="dv">100</span>)</code></pre></div>
+<pre><code>## 
+## CASE RESAMPLING BOOTSTRAP FOR CENSORED DATA
+## 
+## 
+## Call:
+## boot::boot(data = Default, statistic = boot.fn, R = 100)
+## 
+## 
+## Bootstrap Statistics :
+##          original        bias     std. error
+## t1* -1.154047e+01  8.977336e-02 4.135699e-01
+## t2*  2.080898e-05  6.334127e-08 4.216745e-06
+## t3*  5.647103e-03 -5.306251e-05 2.117636e-04</code></pre>
 </div>
 <div id="d-comment-on-the-estimated-standard-errors-obtained-using-the-glm-function-and-using-your-bootstrap-function." class="section level5">
 <h5>(d) Comment on the estimated standard errors obtained using the glm() function and using your bootstrap function.</h5>
+<p>glm standard errors</p>
+<p>income: 4.985e-06 balance: 2.274e-04</p>
+<p>bootstrap standard errors</p>
+<p>income: 5.607415e-06 balance: 2.413098e-04</p>
+<p>The bootstrap errors are higher than the glm standard errors, particularly for income. I suspect this may be a flaw in my boot.fn() function.</p>
 </div>
 </div>
 <div id="exercise-7.-in-sections-5.3.2-and-5.3.3-we-saw-that-the-cv.glm-function-can-be-used-in-order-to-compute-the-loocv-test-error-estimate.-alternatively-one-could-compute-those-quantities-using-just-the-glm-and-200-predict.glm-functions-and-a-for-loop.-you-will-now-take-this-approach-in-order-to-compute-the-loocv-error-for-a-simple-logistic-regression-model-on-the-weekly-data-set.-recall-that-in-the-context-of-classification-problems-the-loocv-error-is-given-in-5.4." class="section level4">
 <h4>Exercise 7. In Sections 5.3.2 and 5.3.3, we saw that the cv.glm() function can be used in order to compute the LOOCV test error estimate. Alternatively, one could compute those quantities using just the glm() and 200 predict.glm() functions, and a for loop. You will now take this approach in order to compute the LOOCV error for a simple logistic regression model on the Weekly data set. Recall that in the context of classification problems, the LOOCV error is given in (5.4).</h4>
 <div id="a-fit-a-logistic-regression-model-that-predicts-direction-using-lag1-and-lag2." class="section level5">
 <h5>(a) Fit a logistic regression model that predicts Direction using Lag1 and Lag2.</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm.fit =<span class="st"> </span><span class="kw">glm</span>(Weekly$Direction ~<span class="st"> </span>Weekly$Lag1 +<span class="st"> </span>Weekly$Lag2, <span class="dt">family=</span><span class="kw">binomial</span>(<span class="dt">link=</span><span class="st">'logit'</span>))</code></pre></div>
 </div>
 <div id="b-fit-a-logistic-regression-model-that-predicts-direction-using-lag1-and-lag2-using-all-but-the-first-observation." class="section level5">
 <h5>(b) Fit a logistic regression model that predicts Direction using Lag1 and Lag2 using all but the first observation.</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm.fitFirstObsRemoved =<span class="st"> </span><span class="kw">glm</span>(Weekly$Direction[<span class="dv">2</span>:<span class="dv">1089</span>] ~<span class="st"> </span>Weekly$Lag1[<span class="dv">2</span>:<span class="dv">1089</span>] +<span class="st"> </span>Weekly$Lag2[<span class="dv">2</span>:<span class="dv">1089</span>], <span class="dt">family=</span><span class="kw">binomial</span>(<span class="dt">link=</span><span class="st">'logit'</span>))</code></pre></div>
 </div>
 <div id="c-use-the-model-from-b-to-predict-the-direction-of-the-first-observation.-you-can-do-this-by-predicting-that-the-first-observation-will-go-up-if-pdirectionuplag1-lag2-0.5.-was-this-observation-correctly-classified" class="section level5">
 <h5>(c) Use the model from (b) to predict the direction of the first observation. You can do this by predicting that the first observation will go up if P(Direction=“Up”|Lag1, Lag2) &gt; 0.5. Was this observation correctly classified?</h5>
-<ol start="4" style="list-style-type: lower-alpha">
-<li>Write a for loop from i = 1 to i = n, where n is the number of observations in the data set, that performs each of the following steps:</li>
-</ol>
+</div>
+<div id="d-write-a-for-loop-from-i-1-to-i-n-where-n-is-the-number-of-observations-in-the-data-set-that-performs-each-of-the-following-steps" class="section level5">
+<h5>(d) Write a for loop from i = 1 to i = n, where n is the number of observations in the data set, that performs each of the following steps:</h5>
 <div id="i.-fit-a-logistic-regression-model-using-all-but-the-ith-observation-to-predict-direction-using-lag1-and-lag2." class="section level6">
 <h6>i. Fit a logistic regression model using all but the ith observation to predict Direction using Lag1 and Lag2.</h6>
 </div>
