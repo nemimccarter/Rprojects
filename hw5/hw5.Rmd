@@ -95,11 +95,20 @@ Incorrect. Ridge regression aims to decrease variance for a slight increase in b
 
 ###### i. More flexible and hence will give improved prediction accuracy when its increase in bias is less than its decrease in variance.
 
+Incorrect. A non-linear method will certainly have more flexibility than least squares, but this added flexibility will result in an increase in variance and a derease in bias.
+
 ###### ii. More flexible and hence will give improved prediction accuracy when its increase in variance is less than its decrease in bias.
+
+Correct. As stated above, non-linear methods are not as rigid as least squares. Their flexibility will provide a lower bias, but higher variance. If the increase in variance is less than the decrease in bias, then it is a better approach than least squares.
 
 ###### iii. Less flexible and hence will give improved prediction accuracy when its increase in bias is less than its decrease in variance.
 
+Incorrect. Non-linear models are more flexible.
+
 ###### iv. Less flexible and hence will give improved prediction accuracy when its increase in variance is less than its decrease in bias.
+
+Incorrect. Non-linear models are more flexible, though the bias-variance tradeoff described here is an accurate for non-linear models.
+
 
 * * *
 
