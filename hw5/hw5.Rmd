@@ -122,7 +122,7 @@ Incorrect. Non-linear models are more flexible, though the bias-variance tradeof
 ```{r}
 library(ISLR)
 library(caTools)
-attach(College)
+data(College)
 
 set.seed(1)
 apps.true = sample.split(College$Apps, 2/3)
@@ -146,8 +146,8 @@ MSE: 1989971
 ```{r}
 library(glmnet)
 College = na.omit(College)
-X.train = model.matrix(Apps~., College)[,-1]
-X.test = model.matrix(Apps~., College)[,-1]
+X.train = model.matrix(Apps~., set.train)[,-1]
+X.test = model.matrix(Apps~., set.test)[,-1]
 Y.train = set.train$Apps
 grid = 10 ^ seq(10, -2, length=100)
 
