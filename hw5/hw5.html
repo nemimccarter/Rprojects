@@ -155,9 +155,8 @@ $(document).ready(function () {
 <hr />
 <div id="conceptual-questions" class="section level2">
 <h2>Conceptual Questions</h2>
-<div id="exercise-1-we-perform-best-subset-forward-stepwise-and-backward-stepwise" class="section level4">
-<h4>Exercise 1: We perform best subset, forward stepwise, and backward stepwise</h4>
-<p>selection on a single data set. For each approach, we obtain p + 1 models, containing 0, 1, 2,…,p predictors. Explain your answers:</p>
+<div id="exercise-1-we-perform-best-subset-forward-stepwise-and-backward-stepwise-selection-on-a-single-data-set.-for-each-approach-we-obtain-p-1-models-containing-0-1-2p-predictors.-explain-your-answers" class="section level4">
+<h4>Exercise 1: We perform best subset, forward stepwise, and backward stepwise selection on a single data set. For each approach, we obtain p + 1 models, containing 0, 1, 2,…,p predictors. Explain your answers:</h4>
 <div id="a-which-of-the-three-models-with-k-predictors-has-the-smallest-training-rss" class="section level5">
 <h5>(a) Which of the three models with k predictors has the smallest training RSS?</h5>
 <p>A naive best subset selection approach will select the model with the smallest training RSS. Since RSS decrease monotonically w.r.t the number of predictors, this model will be the one with p + 1 predictors. This is why it is called naive, and the model’s low training RSS will not hold up against test data. Best subset selection is also computationally expensive.</p>
@@ -275,7 +274,7 @@ prediction =<span class="st"> </span><span class="kw">predict</span>(lm.fit, set
 mse =<span class="st"> </span><span class="kw">mean</span>((set.test$Apps -<span class="st"> </span>prediction)^<span class="dv">2</span>)
 mse</code></pre></div>
 <pre><code>## [1] 1689971</code></pre>
-<p>MSE: 1989971</p>
+<p>MSE: 1689971</p>
 </div>
 <div id="c-fit-a-ridge-regression-model-on-the-training-set-with--chosen-by-cross-validation.-report-the-test-error-obtained." class="section level5">
 <h5>(c) Fit a ridge regression model on the training set, with λ chosen by cross-validation. Report the test error obtained.</h5>
@@ -296,6 +295,7 @@ ridge.pred =<span class="st"> </span><span class="kw">predict</span>(mod.ridge, 
 ridge.mse =<span class="st"> </span><span class="kw">mean</span>((set.test$Apps -<span class="st"> </span>ridge.pred)^<span class="dv">2</span>)
 ridge.mse</code></pre></div>
 <pre><code>## [1] 3121469</code></pre>
+<p>MSE: 3121469</p>
 </div>
 <div id="d-fit-a-lasso-model-on-the-training-set-with--chosen-by-crossvalidation.-report-the-test-error-obtained-along-with-the-number-of-non-zero-coefficient-estimates." class="section level5">
 <h5>(d) Fit a lasso model on the training set, with λ chosen by crossvalidation. Report the test error obtained, along with the number of non-zero coefficient estimates.</h5>
@@ -310,267 +310,8 @@ ridge.pred =<span class="st"> </span><span class="kw">predict</span>(mod.ridge, 
 ridge.mse =<span class="st"> </span><span class="kw">mean</span>((set.test$Apps -<span class="st"> </span>ridge.pred)^<span class="dv">2</span>)
 ridge.mse</code></pre></div>
 <pre><code>## [1] 3334977</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ridge.pred</code></pre></div>
-<pre><code>##                                                        1
-## Agnes Scott College                          2176.031826
-## Albertson College                            1059.188943
-## Albertus Magnus College                       611.895651
-## Allentown Coll. of St. Francis de Sales      1598.172199
-## Alverno College                               420.019068
-## Amherst College                              3939.174242
-## Anderson University                          1152.963283
-## Angelo State University                      2932.938674
-## Antioch University                           2875.906747
-## Augsburg College                              551.872353
-## Baldwin-Wallace College                      2480.152368
-## Barat College                                 211.475050
-## Bard College                                 2671.289881
-## Barry University                             1453.708635
-## Beaver College                               1346.896331
-## Belmont Abbey College                         509.043123
-## Bemidji State University                     1316.454378
-## Bentley College                              3196.408147
-## Berry College                                1991.570905
-## Bethel College KS                             -14.594987
-## Bluffton College                              647.087447
-## Bowdoin College                              4070.739632
-## Briar Cliff College                           272.266038
-## Brigham Young University at Provo           10886.016932
-## Bryn Mawr College                            3359.194474
-## Cabrini College                               568.912256
-## Caldwell College                              458.850200
-## California Polytechnic-San Luis              7068.107184
-## California State University at Fresno        5560.120862
-## Campbell University                          1143.643303
-## Capital University                           2147.977633
-## Carleton College                             3657.736528
-## Catawba College                               650.573747
-## Catholic University of America               2679.182137
-## Cazenovia College                            3374.676257
-## Centenary College                             112.210938
-## Central Missouri State University            4931.263145
-## Chatham College                               915.200172
-## Christendom College                           484.936731
-## Christian Brothers University                 391.265227
-## Clarke College                                278.602032
-## Coe College                                  1276.525805
-## College Misericordia                         1972.240758
-## College of Santa Fe                           949.583360
-## College of William and Mary                  5892.775699
-## Colorado College                             2999.816741
-## Columbia University                          6331.857615
-## Concordia University CA                      1010.850100
-## Connecticut College                          3232.442831
-## Delta State University                       1291.224847
-## DePauw University                            3044.357926
-## Dickinson College                            3334.505352
-## Dominican College of Blauvelt                 263.886419
-## Drake University                             3523.958000
-## Drew University                              3316.799573
-## Earlham College                              1774.894680
-## East Tennessee State University              4025.459833
-## Eastern College                               520.296992
-## Eastern Mennonite College                     865.921566
-## Eckerd College                               2001.562980
-## Elmira College                               1444.759809
-## Elms College                                  867.441314
-## Elon College                                 2397.151556
-## Emory &amp; Henry College                         909.968076
-## Erskine College                               924.926291
-## Fayetteville State University                 860.588654
-## Flagler College                               662.563603
-## Franklin College                             1084.817994
-## Franklin Pierce College                      3096.165897
-## Fresno Pacific College                       1193.175488
-## Furman University                            3526.751717
-## Gannon University                            2432.559849
-## George Fox College                            975.299057
-## George Mason University                      5980.223876
-## Georgian Court College                        304.252544
-## Goshen College                                698.484863
-## Greensboro College                           -138.569177
-## Greenville College                            684.885824
-## Hamilton College                             3038.661248
-## Hartwick College                             2176.118415
-## Harvard University                           7894.831570
-## Harvey Mudd College                          4043.955411
-## Hood College                                 1647.449367
-## Huntington College                            280.593766
-## Huron University                             -396.141478
-## Illinois College                              768.905994
-## James Madison University                     7517.766914
-## John Brown University                         785.093843
-## Kenyon College                               2600.456162
-## King College                                  709.890839
-## Lafayette College                            3719.160498
-## LaGrange College                              572.502903
-## Lander University                            1341.648235
-## Le Moyne College                             1802.807066
-## LeTourneau University                         778.589065
-## Lewis and Clark College                      2930.790829
-## Linfield College                             2176.026542
-## Lock Haven University of Pennsylvania        2864.703977
-## Louisiana College                            1116.082325
-## Louisiana State University at Baton Rouge    8203.405145
-## Louisiana Tech University                    3491.723281
-## Loyola College                               3833.688365
-## Loyola Marymount University                  4339.001347
-## Loyola University Chicago                    4080.644990
-## Luther College                               2129.110159
-## Lyndon State College                          919.855436
-## Manhattanville College                       1533.142267
-## Mankato State University                     4328.558244
-## Marquette University                         6069.631660
-## Marymount Manhattan College                  1433.193464
-## Maryville University                          755.857756
-## Massachusetts Institute of Technology        7136.868518
-## McKendree College                             184.710709
-## McPherson College                            -205.769668
-## Merrimack College                            2238.377438
-## Miami University at Oxford                  10682.147718
-## Michigan Technological University            4248.103083
-## MidAmerica Nazarene College                   304.520190
-## Millsaps College                             1295.185737
-## Missouri Southern State College              2535.157056
-## Montclair State University                   3601.517336
-## Moravian College                             1445.578689
-## Morehouse College                            3112.119386
-## Morris College                                -56.224255
-## Mount Mary College                             93.360304
-## Muskingum College                            1309.710186
-## National-Louis University                    1296.389644
-## Nazareth College of Rochester                1498.783498
-## New Jersey Institute of Technology           3101.387123
-## New York University                         11239.025666
-## Niagara University                           3029.250959
-## North Adams State College                    1103.666964
-## North Carolina State University at Raleigh  10902.542389
-## North Carolina Wesleyan College               535.038658
-## North Central College                        1943.105147
-## Northeastern University                      9401.680456
-## Northern Arizona University                  6703.534110
-## Northwest Nazarene College                    674.544920
-## Oakland University                           3817.509700
-## Oberlin College                              4415.557437
-## Occidental College                           3088.805801
-## Oglethorpe University                        1698.455004
-## Oklahoma Christian University                 715.977461
-## Oklahoma State University                    6524.637335
-## Our Lady of the Lake University               900.844659
-## Peru State College                            390.902306
-## Phillips University                           455.354485
-## Prairie View A. and M. University            2913.766995
-## Radford University                           6028.877795
-## Ramapo College of New Jersey                 1551.807365
-## Reed College                                 2831.701154
-## Rensselaer Polytechnic Institute             6026.920599
-## Rhodes College                               3029.991663
-## Roanoke College                              2109.203366
-## Roger Williams University                    2961.740378
-## Rollins College                              2432.386097
-## Rowan College of New Jersey                  2970.334417
-## Rutgers at New Brunswick                    25079.300331
-## Saint Anselm College                         2020.861923
-## Saint Francis College                        1164.639659
-## Saint Mary's College                         1729.195136
-## Saint Michael's College                      2027.893955
-## Saint Peter's College                        1751.315056
-## Saint Xavier University                       924.410183
-## Salem College                                 843.790105
-## Salisbury State University                   3159.034067
-## San Diego State University                   9175.733214
-## Savannah Coll. of Art and Design             1127.707086
-## Schreiner College                             730.190041
-## Shippensburg University of Penn.             4229.858798
-## Shorter College                               557.445779
-## Simpson College                              1226.510681
-## Sioux Falls College                           156.684517
-## Skidmore College                             3721.835001
-## Smith College                                4122.920552
-## South Dakota State University                3818.921315
-## Spalding University                          -121.844129
-## St. John Fisher College                      1377.844162
-## St. Mary's College of California             3001.306608
-## St. Mary's College of Maryland               2299.436724
-## St. Paul's College                            288.861357
-## St. Thomas Aquinas College                    794.192576
-## Stockton College of New Jersey               2913.282010
-## Stonehill College                            3024.094893
-## SUNY at Stony Brook                          8582.229550
-## SUNY College  at Brockport                   3983.033201
-## SUNY College  at Oswego                      5596.597267
-## SUNY College at Geneseo                      6054.153760
-## Susquehanna University                       2193.590538
-## Syracuse University                          9430.191473
-## Talladega College                            1373.994572
-## Taylor University                            2171.724626
-## Texas A&amp;M Univ. at College Station          17344.260073
-## Thiel College                                1136.708156
-## Tiffin University                            -322.965636
-## Tri-State University                         1006.747423
-## Trinity College DC                           1067.961042
-## Union College KY                               52.536574
-## Union College NY                             3456.964021
-## University of Alabama at Birmingham          3584.053834
-## University of Arkansas at Fayetteville       5410.374385
-## University of California at Berkeley        14103.025952
-## University of Charleston                      632.969202
-## University of Cincinnati                     8352.096224
-## University of Delaware                      11728.325010
-## University of Georgia                       11387.499163
-## University of Maine at Farmington            1487.665138
-## University of Maine at Machias               1110.583520
-## University of Maryland at College Park      13003.809945
-## University of Minnesota at Duluth            4490.769383
-## University of Minnesota at Morris            2558.608013
-## University of Minnesota Twin Cities          9725.601877
-## University of Missouri at Columbia           8327.366640
-## University of Missouri at Saint Louis        2112.030936
-## University of Nebraska at Lincoln            9098.459496
-## University of New England                    1341.486811
-## University of New Hampshire                  9323.652650
-## University of North Carolina at Asheville    1794.819392
-## University of North Carolina at Chapel Hill 11204.261858
-## University of Northern Colorado              5339.988073
-## University of Northern Iowa                  5383.405677
-## University of Oklahoma                       7023.959791
-## University of Puget Sound                    4005.160555
-## University of Rochester                      8050.085722
-## University of San Diego                      4197.111396
-## University of Sci. and Arts of Oklahoma       454.437756
-## University of Southern Mississippi           3272.168411
-## University of St. Thomas MN                  2953.009091
-## University of the South                      2339.259960
-## University of Vermont                        7700.534095
-## University of Wisconsin-Stout                2912.972019
-## University of Wisconsin-Whitewater           4609.235036
-## University of Wisconsin at Madison          15365.368465
-## University of Wisconsin at Milwaukee         5545.905530
-## University of Wyoming                        3314.185254
-## Upper Iowa University                          94.242572
-## Vanderbilt University                        8032.817413
-## Vassar College                               4027.449870
-## Villanova University                         6887.142916
-## Virginia Tech                               14448.396653
-## Wagner College                               1526.895526
-## Warren Wilson College                         407.326860
-## Wartburg College                             1253.489898
-## Washington and Lee University                3164.701340
-## Waynesburg College                            677.640381
-## Webster University                            543.449791
-## Wells College                                1389.980250
-## Wesleyan University                          4455.781053
-## Westfield State College                      2366.483853
-## Westminster College                          1229.377763
-## Westmont College                             2800.922858
-## Widener University                           2146.328462
-## Willamette University                        2298.277134
-## William Woods University                      565.689005
-## Winthrop University                          2684.208928
-## Wisconsin Lutheran College                     -7.897297
-## Wittenberg University                        2733.700721
-## Worcester Polytechnic Institute              3709.630574
-## Xavier University                            2599.594444</code></pre>
+<p>MSE: 3121469</p>
+<p>There appear to be no coefficients brought to zero.</p>
 </div>
 <div id="e-fit-a-pcr-model-on-the-training-set-with-m-chosen-by-cross-validation.-report-the-test-error-obtained-along-with-the-value-of-m-selected-by-cross-validation." class="section level5">
 <h5>(e) Fit a PCR model on the training set, with M chosen by cross validation. Report the test error obtained, along with the value of M selected by cross-validation.</h5>
@@ -659,6 +400,7 @@ pls.mse</code></pre></div>
 </div>
 <div id="g-comment-on-the-results-obtained.-how-accurately-can-we-predict-the-number-of-college-applications-received-is-there-much-difference-among-the-test-errors-resulting-from-these-five-approaches" class="section level5">
 <h5>(g) Comment on the results obtained. How accurately can we predict the number of college applications received? Is there much difference among the test errors resulting from these five approaches?</h5>
+<p>I am not sure how to interpret these test error estimates because they seem incredibly large. Our PLS and linear models perform with the lowest test errors, but they are so far from 0 I am not sure what to compare them to, or how to gague their prediction accuracy.</p>
 <hr />
 </div>
 </div>
