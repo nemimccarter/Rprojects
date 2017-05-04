@@ -31,15 +31,16 @@ library(ggplot2)
 ```{r}
 library(ISLR)
 library(tree)
+library(caTools)
 data(Carseats)
 ```
 
 (a) Split the data set into a training set and a test set.
 ```{r}
 data(Carseats)
-carseats.true = split(Carseats$Sales, 2/3)
-carseats.train = subset(Carseats, TRUE)
-carseats.test = subset(Carseats, FALSE)
+carseats.true = sample.split(Carseats$Sales, 2/3)
+carseats.train = subset(Carseats, carseats.true == TRUE)
+carseats.test = subset(Carseats, carseats.true == FALSE)
 ```
 
 (b) Fit a regression tree to the training set. Plot the tree, and interpret the results. What test MSE do you obtain?
@@ -61,7 +62,7 @@ yhat.rtree = predict(rpart.carseats, carseats.test)
 mean((yhat.rtree - carseats.test$Sales)^2)
 ```
 
-MSE is 
+MSE is 4.25
 
 (d) Use the bagging approach in order to analyze this data. What test MSE do you obtain? Use the importance() function to determine which variables are most important.
 ```{r}
@@ -70,7 +71,7 @@ bag.carseats = randomForest(Sales~., carseats.train, mtry=10, importance=TRUE)
 bag.predict = predict(bag.carseats, carseats.test)
 mean((bag.predict - carseats.test$Sales)^2)
 varImpPlot(bag.carseats, type=1)
-# Bagging has reduced the MSE down quite considerably to 2.89
+# Bagging has reduced the MSE down quite considerably to 2.61
 ```
 
 (e) Use random forests to analyze this data. What test MSE do you obtain? Use the importance() function to determine which variables are most important. Describe the effect of m, the number of variables considered at each split, on the error rate
@@ -80,7 +81,7 @@ rf.carseats = randomForest(Sales ~., carseats.train, mtry=sqrt(3), importance=TR
 rf.predict = predict(rf.carseats, carseats.test)
 mean((rf.predict - carseats.test$Sales)^2)
 varImpPlot(rf.carseats, type=1)
-# RF does not do as well as Baggin. Decorrelating the nodes had had a -ve effect on the test score. 
+# RF does not do as well as Bagging with MSE = 3.35. Decorrelating the nodes had had a -ve effect on the test score. 
 ```
 
 #### Exercise 10: We now use boosting to predict Salary in the Hitters data set.
