@@ -27,9 +27,34 @@ library(ggplot2)
 
 ## Applied Questions
 
-#### Exercise 8:
+#### Exercise 8: In the lab, a classification tree was applied to the Carseats data set after converting Sales into a qualitative response variable. Now we will seek to predict Sales using regression trees and related approaches, treating the response as a quantitative variable.
 
-#### Exercise 10:
+(a) Split the data set into a training set and a test set.
+
+(b) Fit a regression tree to the training set. Plot the tree, and interpret the results. What test MSE do you obtain?
+
+(c) Use cross-validation in order to determine the optimal level of tree complexity. Does pruning the tree improve the test MSE?
+
+(d) Use the bagging approach in order to analyze this data. What test MSE do you obtain? Use the importance() function to determine which variables are most important.
+
+(e) Use random forests to analyze this data. What test MSE do you obtain? Use the importance() function to determine which variables are most important. Describe the effect of m, the number of variables considered at each split, on the error rate
+obtained.
+
+#### Exercise 10: We now use boosting to predict Salary in the Hitters data set.
+
+(a) Remove the observations for whom the salary information is unknown, and then log-transform the salaries.
+
+(b) Create a training set consisting of the first 200 observations, and a test set consisting of the remaining observations.
+
+(c) Perform boosting on the training set with 1,000 trees for a range of values of the shrinkage parameter λ. Produce a plot with different shrinkage values on the x-axis and the corresponding training set MSE on the y-axis.
+
+(d) Produce a plot with different shrinkage values on the x-axis and the corresponding test set MSE on the y-axis.
+
+(e) Compare the test MSE of boosting to the test MSE that results from applying two of the regression approaches seen in Chapters 3 and 6.
+
+(f) Which variables appear to be the most important predictors in the boosted model?
+
+(g) Now apply bagging to the training set. What is the test set MSE for this approach?
 
 * * *
 
