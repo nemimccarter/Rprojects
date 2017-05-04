@@ -48,9 +48,6 @@ carseats.test = subset(Carseats, carseats.true == FALSE)
 library(rpart)
 library(rattle)
 tree.carseats = tree(Sales~., carseats.train)
-tree.carseats
-plot(tree.carseats)
-text(tree.carseats, pretty = 0)
 rpart.carseats = rpart(Sales~., carseats.train)
 fancyRpartPlot(rpart.carseats)
 ```
@@ -62,17 +59,17 @@ yhat.rtree = predict(rpart.carseats, carseats.test)
 mean((yhat.rtree - carseats.test$Sales)^2)
 ```
 
-MSE is 4.25
-
 (d) Use the bagging approach in order to analyze this data. What test MSE do you obtain? Use the importance() function to determine which variables are most important.
 ```{r}
+library(randomForest)
 set.seed(121)
 bag.carseats = randomForest(Sales~., carseats.train, mtry=10, importance=TRUE)
 bag.predict = predict(bag.carseats, carseats.test)
 mean((bag.predict - carseats.test$Sales)^2)
 varImpPlot(bag.carseats, type=1)
-# Bagging has reduced the MSE down quite considerably to 2.61
 ```
+
+Bagging has reduced the MSE down quite considerably.
 
 (e) Use random forests to analyze this data. What test MSE do you obtain? Use the importance() function to determine which variables are most important. Describe the effect of m, the number of variables considered at each split, on the error rate
 obtained.
@@ -81,8 +78,9 @@ rf.carseats = randomForest(Sales ~., carseats.train, mtry=sqrt(3), importance=TR
 rf.predict = predict(rf.carseats, carseats.test)
 mean((rf.predict - carseats.test$Sales)^2)
 varImpPlot(rf.carseats, type=1)
-# RF does not do as well as Bagging with MSE = 3.35. Decorrelating the nodes had had a -ve effect on the test score. 
 ```
+
+RF does not do as well as bagging. Decorrelating the nodes had had a negative effect on the test score. 
 
 #### Exercise 10: We now use boosting to predict Salary in the Hitters data set.
 
@@ -152,6 +150,8 @@ lasso.pred = predict(lasso.fit, s=0.01, newx=x.test)
 mean((Hitters.test$Salary - lasso.pred)^2)
 ```
 
+Test MSE reaches a far lower value with boosting.
+
 (f) Which variables appear to be the most important predictors in the boosted model?
 
 ```{r}
@@ -165,7 +165,6 @@ set.seed(21)
 rf.hitters = randomForest(Salary~., data=Hitters.train, ntree=500, mtry=19)
 rf.pred = predict(rf.hitters, Hitters.test)
 mean((Hitters.test$Salary - rf.pred)^2)
-# Test MSE is 631
 ```
 
 * * *
