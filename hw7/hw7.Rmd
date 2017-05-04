@@ -28,17 +28,60 @@ library(ggplot2)
 ## Applied Questions
 
 #### Exercise 8: In the lab, a classification tree was applied to the Carseats data set after converting Sales into a qualitative response variable. Now we will seek to predict Sales using regression trees and related approaches, treating the response as a quantitative variable.
+```{r}
+library(ISLR)
+library(tree)
+data(Carseats)
+```
 
 (a) Split the data set into a training set and a test set.
+```{r}
+data(Carseats)
+carseats.true = split(Carseats$Sales, 2/3)
+carseats.train = subset(Carseats, TRUE)
+carseats.test = subset(Carseats, FALSE)
+```
 
 (b) Fit a regression tree to the training set. Plot the tree, and interpret the results. What test MSE do you obtain?
+```{r}
+library(rpart)
+library(rattle)
+tree.carseats = tree(Sales~., carseats.train)
+tree.carseats
+plot(tree.carseats)
+text(tree.carseats, pretty = 0)
+rpart.carseats = rpart(Sales~., carseats.train)
+fancyRpartPlot(rpart.carseats)
+```
 
 (c) Use cross-validation in order to determine the optimal level of tree complexity. Does pruning the tree improve the test MSE?
 
+```{r}
+yhat.rtree = predict(rpart.carseats, carseats.test)
+mean((yhat.rtree - carseats.test$Sales)^2)
+```
+
+MSE is 
+
 (d) Use the bagging approach in order to analyze this data. What test MSE do you obtain? Use the importance() function to determine which variables are most important.
+```{r}
+set.seed(121)
+bag.carseats = randomForest(Sales~., carseats.train, mtry=10, importance=TRUE)
+bag.predict = predict(bag.carseats, carseats.test)
+mean((bag.predict - carseats.test$Sales)^2)
+varImpPlot(bag.carseats, type=1)
+# Bagging has reduced the MSE down quite considerably to 2.89
+```
 
 (e) Use random forests to analyze this data. What test MSE do you obtain? Use the importance() function to determine which variables are most important. Describe the effect of m, the number of variables considered at each split, on the error rate
 obtained.
+```{r}
+rf.carseats = randomForest(Sales ~., carseats.train, mtry=sqrt(3), importance=TRUE)
+rf.predict = predict(rf.carseats, carseats.test)
+mean((rf.predict - carseats.test$Sales)^2)
+varImpPlot(rf.carseats, type=1)
+# RF does not do as well as Baggin. Decorrelating the nodes had had a -ve effect on the test score. 
+```
 
 #### Exercise 10: We now use boosting to predict Salary in the Hitters data set.
 
@@ -58,14 +101,30 @@ logSalary = log(Hitters$Salary)
 
 ```{r}
 # logSalary has 263 observations
-salary.train = logSalary[1:200]
-salary.test = logSalary[201:263]
+split = split(Hitters$Salary, 0.75)
+Hitters.train = subset(Hitters, split == TRUE)
+Hitters.test = subset(Hitters, split == FALSE)
 ```
 
 (c) Perform boosting on the training set with 1,000 trees for a range of values of the shrinkage parameter λ. Produce a plot with different shrinkage values on the x-axis and the corresponding training set MSE on the y-axis.
 
 ```{r}
+library(gbm)
+set.seed(1)
+pows = seq(-10, -0.2, by=0.1)
+lambdas = 10 ^ pows
+length.lambdas = length(lambdas)
+train.errors = rep(NA, length.lambdas)
+test.errors = rep(NA, length.lambdas)
+for (i in 1:length.lambdas) {
+        boost.hitters = gbm(Salary~., data=salary.train, distribution="gaussian", n.trees=1000, shrinkage=lambdas[i])
+        train.pred = predict(boost.hitters, salary.train, n.trees=1000)
+        test.pred = predict(boost.hitters, salary.test, n.trees=1000)
+        train.errors[i] = mean((salary.train - train.pred)^2)
+        test.errors[i] = mean((salary.test - test.pred)^2)
+}
 
+plot(lambdas, train.errors, type="b", xlab="Shrinkage", ylab="Train MSE", col="blue", pch=20)
 ```
 
 (d) Produce a plot with different shrinkage values on the x-axis and the corresponding test set MSE on the y-axis.
