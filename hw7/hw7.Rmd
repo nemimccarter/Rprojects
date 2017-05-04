@@ -1,0 +1,41 @@
+---
+title: "Chapter 8 HW"
+author: "Nehemya McCarter-Ribakoff"
+date: "4 May 2017"
+output: 
+  html_document: 
+    fig_height: 4
+    highlight: pygments
+    theme: spacelab
+---
+
+```{r setup, include=FALSE}
+# DO NOT ALTER CODE IN THIS CHUNK
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+```
+
+* * *
+## Conceptual Questions
+
+
+#### Exercise 4:
+
+* * *
+
+
+## Applied Questions
+
+#### Exercise 8:
+
+#### Exercise 10:
+
+* * *
+
+## Teamwork report
+
+| Team member             | Conceptual | Applied  | Contribution % |
+|:------------------------|:----------:|:--------:|---------------:|
+| Nehemya                 |    Yes     |   Yes    | 100%           |
+| Total                   |            |          | 100%           |

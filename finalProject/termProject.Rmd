@@ -1,0 +1,42 @@
+---
+title: "Term Project"
+author: "Nehemya McCarter-Ribakoff"
+date: "April 20, 2017"
+output:
+  pdf_document: default
+  highlight: pygments
+  html_document: null
+  fig_height: 4
+  theme: spacelab
+---
+
+```{r setup, include=FALSE}
+# DO NOT ALTER CODE IN THIS CHUNK
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+
+```
+
+* * *
+
+```{r}
+park.names = read.table("parks.csv", header = TRUE, sep = ",", quote="\"'", dec=".")
+species = read.csv("species.csv", header = TRUE, sep = ",")
+```
+
+We will be using the R package "vegan" (vegetation analysis) for our biodiversity measure
+
+```{r}
+install.packages('vegan')
+```
+
+```{r}
+species.table = table(species$Scientific.Name)
+species.count = nrow(species.table)
+total.obs = nrow(species)
+species.count / total.obs
+```
+
+We can consider our base biodiversity index at 0.3859
+Let's look at 
