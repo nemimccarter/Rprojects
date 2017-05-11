@@ -53,6 +53,20 @@ set.seed(1)
 kmeans.out = kmeans(park.vasc.plants$Freq, 4, nstart = 50)
 plot(kmeans.out$cluster)
 ```
+
+Let's try hierarchical clustering for another look
+
+```{r}
+hclust.complete = hclust(dist(park.vasc.plants$Freq), method = "complete")
+hclust.avg = hclust(dist(park.vasc.plants$Freq), method = "average")
+hclust.single = hclust(dist(park.vasc.plants$Freq), method = "single")
+plot(hclust.complete, main = "Complete Linkage", xlab = "", sub = "", cex = .9)
+plot(hclust.avg, main = "Average Linkage", xlab = "", sub = "", cex = .9)
+plot(hclust.single, main = "Single Linkage", xlab = "", sub = "", cex = .9)
+```
+
+Biodiversity
+
 We will be using the R package "vegan" (vegetation analysis) for our biodiversity measure
 
 ```{r}
