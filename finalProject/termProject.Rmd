@@ -25,21 +25,32 @@ park.names = read.table("parks.csv", header = TRUE, sep = ",", quote="\"'", dec=
 species = read.csv("species.csv", header = TRUE, sep = ",")
 ```
 
+Let's get a basic familiarity with the data first: a look at category frequency
+
+```{r}
+barplot(table(species$Category), main = "Species Category Frequency")
+```
+
+Our set consists primarily of vascular plants, with relatively large proportions of birds and instects as well.
+
 
 We begin with a basic k-means clustering analysis. Lets cluster parks together based on number of fungi species
 
 ```{r}
 # Obtain all fungi observations
 park.fungi = subset(species, Category == "Fungi")
+park.birds = subset(species, Category == "Bird")
+park.mammals = subset(species, Category == "Mammal")
+park.vasc.plants = subset(species, Category == "Vascular Plant")
 # Remove those not marked as "Present"
-park.fungi = subset(park.fungi, Occurrence == "Present")
+park.vasc.plants = subset(park.vasc.plants, Occurrence == "Present")
 # Build into frequency table of each park name occurrence.
 # This corresponds to a separate species entry for each park
-park.fungi = data.frame(table(park.fungi$Park.Name))
+park.vasc.plants = data.frame(table(park.vasc.plants$Park.Name))
 
 set.seed(1)
 # Let's try 3 clusters
-kmeans.out = kmeans(park.fungi$Freq, 3, nstart = 50)
+kmeans.out = kmeans(park.vasc.plants$Freq, 4, nstart = 50)
 plot(kmeans.out$cluster)
 ```
 We will be using the R package "vegan" (vegetation analysis) for our biodiversity measure
