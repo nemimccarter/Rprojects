@@ -21,3 +21,20 @@ kmeans.out$cluster
 plot(x, col=(kmeans.out$cluster +1), main="Pop vs. Lazarus", xlab="", ylab="", pch=20, cex=2)
 
 ## Prep data ##
+# Obtain all fungi observations
+park.fungi = subset(species, Category == "Fungi")
+# Remove those not marked as "Present"
+park.fungi = subset(park.fungi, Occurrence == "Present")
+# Build into frequency table of each park name occurrence.
+# This corresponds to a separate species entry for each park
+park.fungi = data.frame(table(park.fungi$Park.Name))
+
+set.seed(1)
+# Let's try 3 clusters
+kmeans.out = kmeans(park.fungi$Freq, 3, nstart = 50)
+plot(kmeans.out$cluster)
+
+#####################################
+## Perform hierarchical clustering ##
+#####################################
+
