@@ -38,33 +38,51 @@ We begin with a basic k-means clustering analysis. Lets cluster parks together b
 
 ```{r}
 # Obtain all fungi observations
-park.fungi = subset(species, Category == "Fungi")
-park.birds = subset(species, Category == "Bird")
-park.mammals = subset(species, Category == "Mammal")
 park.vasc.plants = subset(species, Category == "Vascular Plant")
 # Remove those not marked as "Present"
 park.vasc.plants = subset(park.vasc.plants, Occurrence == "Present")
 # Build into frequency table of each park name occurrence.
 # This corresponds to a separate species entry for each park
 park.vasc.plants = data.frame(table(park.vasc.plants$Park.Name))
+row.names(park.vasc.plants) = park.vasc.plants$Var1
 
+# Add latitude
+park.vasc.plants.latitude = data.frame(park.vasc.plants, park.names$Latitude)
+park.vasc.plants.latitude = subset(park.vasc.plants.latitude, select = -Var1)
 set.seed(1)
-# Let's try 3 clusters
-kmeans.out = kmeans(park.vasc.plants$Freq, 4, nstart = 50)
-plot(kmeans.out$cluster)
+
+kmeans.out = kmeans(park.vasc.plants.latitude, 4, nstart = 50)
+plot(kmeans.out$centers)
 ```
 
-Let's try hierarchical clustering for another look
+Let's try hierarchical clustering
 
 ```{r}
-hclust.complete = hclust(dist(park.vasc.plants$Freq), method = "complete")
-hclust.avg = hclust(dist(park.vasc.plants$Freq), method = "average")
-hclust.single = hclust(dist(park.vasc.plants$Freq), method = "single")
+hclust.complete = hclust(dist(park.vasc.plants.latitude), method = "complete")
+hclust.avg = hclust(dist(park.vasc.plants.latitude$Freq), method = "average")
+hclust.single = hclust(dist(park.vasc.plants.latitude$Freq), method = "single")
 plot(hclust.complete, main = "Complete Linkage", xlab = "", sub = "", cex = .9)
 plot(hclust.avg, main = "Average Linkage", xlab = "", sub = "", cex = .9)
 plot(hclust.single, main = "Single Linkage", xlab = "", sub = "", cex = .9)
 ```
 
+
+Compare these results to those including only native species
+```{r}
+native.species = subset(species, Nativeness == "Native")
+plot(native.species$Category)
+```
+
+Note a marked decrease in the observations of fish and insects. Vascular plants still dominate.
+
+Let's view the distribution without vascular plants
+
+```{r}
+native.species.no.vasc = subset(native.species, Category != "Vascular Plant")
+plot(native.species.no.vasc$Category)
+```
+
+We have a high incidence of native birds, insects, reptiles, and fish.
 Biodiversity
 
 We will be using the R package "vegan" (vegetation analysis) for our biodiversity measure

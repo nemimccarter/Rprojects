@@ -34,7 +34,7 @@ set.seed(1)
 kmeans.out = kmeans(park.fungi$Freq, 3, nstart = 50)
 plot(kmeans.out$cluster)
 
-#####################################
-## Perform hierarchical clustering ##
-#####################################
+## nativeness
+
+native.species = subset(species, Nativeness == "Native")
 
