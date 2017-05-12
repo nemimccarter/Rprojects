@@ -25,6 +25,11 @@ park.names = read.table("parks.csv", header = TRUE, sep = ",", quote="\"'", dec=
 species = read.csv("species.csv", header = TRUE, sep = ",")
 ```
 
+Let's remove dimensions we likely won't get much use out of
+
+```{r}
+species = subset(species, select = -c(Scientific.Name, Common.Names, Species.ID, Record.Status))
+```
 Let's get a basic familiarity with the data first: a look at category frequency
 
 ```{r}
@@ -37,7 +42,7 @@ Our set consists primarily of vascular plants, with relatively large proportions
 We begin with a basic k-means clustering analysis. Lets cluster parks together based on number of fungi species
 
 ```{r}
-# Obtain all fungi observations
+# Obtain all vascular plant observations
 park.vasc.plants = subset(species, Category == "Vascular Plant")
 # Remove those not marked as "Present"
 park.vasc.plants = subset(park.vasc.plants, Occurrence == "Present")
@@ -52,8 +57,11 @@ park.vasc.plants.latitude = subset(park.vasc.plants.latitude, select = -Var1)
 set.seed(1)
 
 kmeans.out = kmeans(park.vasc.plants.latitude, 4, nstart = 50)
-plot(kmeans.out$centers)
+plot(kmeans.out$cluster)
 ```
+
+This example is excessively simple. Let's add a few features.
+
 
 Let's try hierarchical clustering
 
@@ -85,18 +93,25 @@ plot(native.species.no.vasc$Category)
 We have a high incidence of native birds, insects, reptiles, and fish.
 Biodiversity
 
-We will be using the R package "vegan" (vegetation analysis) for our biodiversity measure
-
 ```{r}
-install.packages('vegan')
+native.birds = subset(native.species, Category == "Bird")
+native.birds = subset(native.birds, Occurrence == "Present")
+plot(native.birds$Seasonality)
+bird.seasonality = table(native.birds$Seasonality)
+bird.seasonality = data.frame(bird.seasonality)
 ```
 
+Clustering for native bird seasonality
+
 ```{r}
-species.table = table(species$Scientific.Name)
-species.count = nrow(species.table)
-total.obs = nrow(species)
-species.count / total.obs
+hclust.complete = hclust(table(native.birds$Seasonality), method = "complete")
+hclust.avg = hclust(dist(native.birds$Seasonality), method = "average")
+hclust.single = hclust(dist(native.birds$Seasonality), method = "single")
+plot(hclust.complete, main = "Complete Linkage", xlab = "", sub = "", cex = .9)
+plot(hclust.avg, main = "Average Linkage", xlab = "", sub = "", cex = .9)
+plot(hclust.single, main = "Single Linkage", xlab = "", sub = "", cex = .9)
 ```
 
-We can consider our base biodiversity index at 0.3859
-Let's look at 
+Plan
+
+Create new data frame containing park names, the frequency of each category in each park, park latitude, park acres, and park state
