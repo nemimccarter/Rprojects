@@ -115,3 +115,4 @@ plot(hclust.single, main = "Single Linkage", xlab = "", sub = "", cex = .9)
 Plan
 
 Create new data frame containing park names, the frequency of each category in each park, park latitude, park acres, and park state
+
