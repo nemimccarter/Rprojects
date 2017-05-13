@@ -25,22 +25,30 @@ park.names = read.table("parks.csv", header = TRUE, sep = ",", quote="\"'", dec=
 species = read.csv("species.csv", header = TRUE, sep = ",")
 ```
 
-Let's remove dimensions we likely won't get much use out of and create a dataframe with everything we'll need, with features to be added.
+Let's remove dimensions we likely won't get much use out of:
 
 ```{r}
 species = subset(species, select = -c(Scientific.Name, Common.Names, Species.ID, Record.Status))
+```
 
+And create a dataframe with everything we'll need, with features to be added:
+
+```{r}
 frequencies.df = data.frame(park.names$Park.Name, park.names$State, park.names$Acres, park.names$Latitude, "Vascular.Plant.Freq", "Bird.Freq", "Insect.Freq", "Fungi.Freq", "Nonvasc.Plant.Freq", "Fish.Freq", "Mammal.Freq", "Intervebrate.Freq", "Reptile.Freq", "Algae.Freq", "Slug/Snail.Freq", "Spider/Scorpion.Freq", "Ambphibian.Freq", "Crustacean.Freq")
 colnames(frequencies.df) = c("Park.Name", "State", "Acres", "Latitude", "Vascular.Plant.Freq", "Brid.Freq", "Insect.Freq", "Fungi.Freq", "Nonvasc.Plant.Freq", "Fish.Freq", "Mammal.Freq", "Intervebrate.Freq", "Reptile.Freq", "Algae.Freq", "SlugSnail.Freq", "SpiderScorpion.Freq", "Ambhipian.Freq", "Crustacean.Freq")
+
+frequencies.df[, 5:18] = 0
 ```
 
 A function to populate our frequency table
 
 ```{r}
-categoryFreq = function(parkName, category) {
+categoryFreq = function(old.frequencies.df, parkName, parkIndex, category) {
   temp.data = subset(species, species$Park.Name == parkName)
-  frequency.df[parkIndex, 5] == sum(temp.data$Category == category)
-
+  old.frequencies.df[parkIndex, 5] = sum(temp.data$Category == category)
+  new.frequencies.df = old.frequencies.df
+  
+  return(new.frequencies.df)
 }
 ```
 
