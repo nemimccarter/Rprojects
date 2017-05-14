@@ -43,6 +43,9 @@ frequencies.df[, 5:18] = 0
 A function to populate our frequency table
 
 ```{r}
+# Note: some values produced by this function are suspicious. Verify the values
+#       are correct before submitting
+
 categoryFreq = function(old.frequencies.df, category) {
   parkIndex = 1
   parkName = old.frequencies.df[1, parkIndex]
