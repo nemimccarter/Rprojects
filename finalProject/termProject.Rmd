@@ -50,7 +50,7 @@ categoryFreq = function(old.frequencies.df, category) {
   for(parkIndex in numParks) {
     parkName = old.frequencies.df[parkIndex, 1]
     temp.data = subset(species, species$Park.Name == parkName)
-    old.frequencies.df[parkIndex, 5] = sum(temp.data$Category == category)
+    old.frequencies.df[parkIndex, 18] = sum(temp.data$Category == category)
   }
 
   new.frequencies.df = old.frequencies.df
