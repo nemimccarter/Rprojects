@@ -43,8 +43,7 @@ frequencies.df[, 5:18] = 0
 A function to populate our frequency table
 
 ```{r}
-# Note: some values produced by this function are suspicious. Verify the values
-#       are correct before submitting
+# Values produced by this function have been verified with table(species$Category)
 
 categoryFreq = function(old.frequencies.df, category) {
   parkIndex = 1
@@ -54,6 +53,8 @@ categoryFreq = function(old.frequencies.df, category) {
     parkName = old.frequencies.df[parkIndex, 1]
     temp.data = subset(species, species$Park.Name == parkName)
     old.frequencies.df[parkIndex, 18] = sum(temp.data$Category == category)
+    # the second value in the brackets corresponds to the frequency column in
+    # frequencies.df. Change this accordingly when using (bad hack)
   }
 
   new.frequencies.df = old.frequencies.df
