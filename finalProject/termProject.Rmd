@@ -72,7 +72,7 @@ Running the function:
 frequencies.df = categoryFreq(frequencies.df)
 ```
 
-A subset data frame for clustering with only quantitative vectors
+We create a subset data frame for clustering with only quantitative vectors
 
 ```{r}
 freqs.only = subset(frequencies.df, select = -c(Park.Name, State))
@@ -99,7 +99,7 @@ Latitude and Fungi
 ```{r}
 latitude.fungi= data.frame(freqs.only$Latitude, freqs.only$Fungi.Freq)
 kmeans.out = kmeans(latitude.fungi, 3, nstart = 50)
-plot(latitude.fungi, col=(kmeans.out$cluster + 1), main = "Category Observation Frequency", xlab = "Latitude", ylab = "Fungi")
+plot(latitude.fungi, col=(kmeans.out$cluster + 1), main = "Latitude and Fungi", xlab = "Latitude", ylab = "Fungi")
 ```
 
 For reference, park latitude
@@ -109,30 +109,39 @@ Let's get a basic familiarity with the data first: a look at category frequency
 barplot(table(species$Category), main = "Species Category Frequency")
 ```
 
+Hierarchical clustering
+
+```{r}
+hclust.complete = hclust(dist(latitude.fungi), method = "complete")
+hclust.avg = hclust(dist(latitude.fungi), method = "average")
+hclust.single = hclust(dist(latitude.fungi), method = "single")
+plot(hclust.complete, main = "Complete Linkage: Latitude and Fungi", xlab = "", sub = "", cex = .9)
+plot(hclust.avg, main = "Average Linkage: Latitude and Fungi", xlab = "", sub = "", cex = .9)
+plot(hclust.single, main = "Single Linkage: Latitude and Fungi", xlab = "", sub = "", cex = .9)
+```
+
 Our set consists primarily of vascular plants, with relatively large proportions of birds and instects as well.
 
 
 We begin with a basic k-means clustering analysis. Lets cluster parks together based on number of fungi species
 
 ```{r}
-# Obtain all vascular plant observations
-park.vasc.plants = subset(species, Category == "Vascular Plant")
-# Remove those not marked as "Present"
-park.vasc.plants = subset(park.vasc.plants, Occurrence == "Present")
-# Build into frequency table of each park name occurrence.
-# This corresponds to a separate species entry for each park
-park.vasc.plants = data.frame(table(park.vasc.plants$Park.Name))
-row.names(park.vasc.plants) = park.vasc.plants$Var1
-
-# Add latitude
-park.vasc.plants.latitude = data.frame(park.vasc.plants, park.names$Latitude)
-park.vasc.plants.latitude = subset(park.vasc.plants.latitude, select = -Var1)
+vasc.plants.latitude = data.frame(freqs.only$Latitude, freqs.only$Vascular.Plant.Freq)
 set.seed(1)
-
-kmeans.out = kmeans(park.vasc.plants.latitude, 4, nstart = 50)
-plot(kmeans.out$cluster)
+kmeans.out = kmeans(vasc.plants.latitude, 3, nstart = 60)
+plot(vasc.plants.latitude, col=(kmeans.out$cluster + 1), main = "Latitude and Vascular Plants", xlab = "Latitude", ylab = "Vascular Plants")
 ```
 
+Hierarchical clustering
+
+```{r}
+hclust.complete = hclust(dist(vasc.plants.latitude), method = "complete")
+hclust.avg = hclust(dist(vasc.plants.latitude), method = "average")
+hclust.single = hclust(dist(vasc.plants.latitude), method = "single")
+plot(hclust.complete, main = "Complete Linkage: Latitude and Vascular Plants", xlab = "", sub = "", cex = .9)
+plot(hclust.avg, main = "Average Linkage: Latitude and Vascular Plants", xlab = "", sub = "", cex = .9)
+plot(hclust.single, main = "Single Linkage: Latitude and Vascular Plants", xlab = "", sub = "", cex = .9)
+```
 This example is excessively simple. Let's add a few features.
 
 
