@@ -128,7 +128,7 @@ We begin with a basic k-means clustering analysis. Lets cluster parks together b
 ```{r}
 vasc.plants.latitude = data.frame(freqs.only$Latitude, freqs.only$Vascular.Plant.Freq)
 set.seed(1)
-kmeans.out = kmeans(vasc.plants.latitude, 3, nstart = 60)
+kmeans.out = kmeans(vasc.plants.latitude, 3, nstart = 50)
 plot(vasc.plants.latitude, col=(kmeans.out$cluster + 1), main = "Latitude and Vascular Plants", xlab = "Latitude", ylab = "Vascular Plants")
 ```
 
