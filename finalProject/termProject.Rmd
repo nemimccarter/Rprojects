@@ -99,7 +99,7 @@ Latitude and Fungi
 ```{r}
 latitude.fungi= data.frame(freqs.only$Latitude, freqs.only$Fungi.Freq)
 kmeans.out = kmeans(latitude.fungi, 3, nstart = 50)
-plot(latitude.fungi, col=(kmeans.out$cluster + 1), main = "Latitude and Fungi", xlab = "Latitude", ylab = "Fungi")
+cluster::clusplot(latitude.fungi, kmeans.out$cluster, shade = TRUE, color = TRUE, main = "Latitude and Fungi", xlab = "Latitude", ylab = "Fungi")
 ```
 
 For reference, park latitude
@@ -129,7 +129,7 @@ We begin with a basic k-means clustering analysis. Lets cluster parks together b
 vasc.plants.latitude = data.frame(freqs.only$Latitude, freqs.only$Vascular.Plant.Freq)
 set.seed(1)
 kmeans.out = kmeans(vasc.plants.latitude, 3, nstart = 50)
-plot(vasc.plants.latitude, col=(kmeans.out$cluster + 1), main = "Latitude and Vascular Plants", xlab = "Latitude", ylab = "Vascular Plants")
+cluster::clusplot(vasc.plants.latitude, kmeans.out$cluster, main = "Latitude and Vascular Plants", xlab = "Latitude", ylab = "Vascular Plants")
 ```
 
 Hierarchical clustering
