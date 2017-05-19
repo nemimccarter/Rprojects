@@ -127,9 +127,12 @@ We begin with a basic k-means clustering analysis. Lets cluster parks together b
 
 ```{r}
 vasc.plants.latitude = data.frame(freqs.only$Latitude, freqs.only$Vascular.Plant.Freq)
+rownames(vasc.plants.latitude) = frequencies.df$Park.Name
 set.seed(1)
 kmeans.out = kmeans(vasc.plants.latitude, 3, nstart = 50)
-cluster::clusplot(vasc.plants.latitude, kmeans.out$cluster, main = "Latitude and Vascular Plants", xlab = "Latitude", ylab = "Vascular Plants")
+cluster::clusplot(vasc.plants.latitude, kmeans.out$cluster, main = "Latitude and Vascular Plants", col.p = kmeans.out$cluster, xlab = "Latitude", ylab = "Vascular Plants")
+legend("bottomright", legend = paste("Cluster", 1:3), pch=1:3, col=1:3)
+
 ```
 
 Hierarchical clustering
@@ -156,6 +159,26 @@ plot(hclust.avg, main = "Average Linkage", xlab = "", sub = "", cex = .9)
 plot(hclust.single, main = "Single Linkage", xlab = "", sub = "", cex = .9)
 ```
 
+Let's use hierarchical clustering to help us decide how many clusters we'll use on a comparison of vascular and nonvascular plants
+
+```{r}
+plants = data.frame(freqs.only$Vascular.Plant.Freq, freqs.only$Nonvasc.Plant.Freq)
+rownames(plants) = frequencies.df$Park.Name
+hclust.complete = hclust(dist(plants), method = "complete")
+hclust.avg = hclust(dist(plants), method = "average")
+hclust.single = hclust(dist(plants), method = "single")
+plot(hclust.complete, main = "Complete Linkage", xlab = "", sub = "", cex = .9)
+plot(hclust.avg, main = "Average Linkage", xlab = "", sub = "", cex = .9)
+plot(hclust.single, main = "Single Linkage", xlab = "", sub = "", cex = .9)
+```
+
+Let's try 4
+
+```{r}
+set.seed(1)
+kmeans.out = kmeans(plants, 3, nstart = 50)
+cluster::clusplot(plants, kmeans.out$cluster, labels = 2, main = "Vascular and Nonvascular Plants", col.p = kmeans.out$cluster, xlab = "Vascular Plants", ylab = "Nonvascular Plants")
+```
 
 Compare these results to those including only native species
 ```{r}
