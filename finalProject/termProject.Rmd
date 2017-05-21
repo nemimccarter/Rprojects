@@ -98,23 +98,41 @@ Latitude and Fungi
 
 ```{r}
 latitude.fungi= data.frame(freqs.only$Latitude, freqs.only$Fungi.Freq)
-kmeans.out = kmeans(latitude.fungi, 3, nstart = 50)
-cluster::clusplot(latitude.fungi, kmeans.out$cluster, shade = TRUE, color = TRUE, main = "Latitude and Fungi", xlab = "Latitude", ylab = "Fungi")
+rownames(latitude.fungi) = frequencies.df$Park.Name
+latitude.fungi.normal = scale(latitude.fungi)
+kmeans.out = kmeans(latitude.fungi.normal, 3, nstart = 50)
+cluster::clusplot(latitude.fungi.normal, kmeans.out$cluster, color = TRUE, main = "Latitude and Fungi", xlab = "Latitude", ylab = "Fungi")
+legend("bottomright", legend = paste("Cluster", 1:3), pch=1:3, col=1:3)
 ```
 
-For reference, park latitude
-Let's get a basic familiarity with the data first: a look at category frequency
+Let's get the vector of cluster names and their assigned cluster
 
 ```{r}
-barplot(table(species$Category), main = "Species Category Frequency")
+cluster.assignments = cbind(latitude.fungi.normal, kmeans.out$cluster)
+colnames(cluster.assignments) = c("Latitude", "Fungi Frequency", "Cluster")
+# convert from vector to data frame
+cluster.assignments = as.data.frame(cluster.assignments)
+# sort by cluster assignment, in ascending order
+#cluster.assignments[with(cluster.assignments, order(Cluster)), ]
+
+# Create independent data frames for each cluster
+cluster.one = subset(cluster.assignments, Cluster == 1)
+cluster.two = subset(cluster.assignments, Cluster == 2)
+cluster.three = subset(cluster.assignments, Cluster == 3)
+
+# Compare latitudes
+summary(cluster.one)
+summary(cluster.two)
+summary(cluster.three)
 ```
 
 Hierarchical clustering
 
 ```{r}
-hclust.complete = hclust(dist(latitude.fungi), method = "complete")
-hclust.avg = hclust(dist(latitude.fungi), method = "average")
-hclust.single = hclust(dist(latitude.fungi), method = "single")
+latitude.fungi.scaled = scale(latitude.fungi)
+hclust.complete = hclust(dist(latitude.fungi.scaled), method = "complete")
+hclust.avg = hclust(dist(latitude.fungi.scaled), method = "average")
+hclust.single = hclust(dist(latitude.fungi.scaled), method = "single")
 plot(hclust.complete, main = "Complete Linkage: Latitude and Fungi", xlab = "", sub = "", cex = .9)
 plot(hclust.avg, main = "Average Linkage: Latitude and Fungi", xlab = "", sub = "", cex = .9)
 plot(hclust.single, main = "Single Linkage: Latitude and Fungi", xlab = "", sub = "", cex = .9)
@@ -177,7 +195,9 @@ Let's try 4
 ```{r}
 set.seed(1)
 kmeans.out = kmeans(plants, 3, nstart = 50)
-cluster::clusplot(plants, kmeans.out$cluster, labels = 2, main = "Vascular and Nonvascular Plants", col.p = kmeans.out$cluster, xlab = "Vascular Plants", ylab = "Nonvascular Plants")
+cluster::clusplot(plants, kmeans.out$cluster, main = "Vascular and Nonvascular Plants", col.p = kmeans.out$cluster, xlab = "Vascular Plants", ylab = "Nonvascular Plants")
+legend("bottomright", legend = paste("Cluster", 1:3), pch=1:3, col=1:3)
+
 ```
 
 Compare these results to those including only native species
