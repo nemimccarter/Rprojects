@@ -96,10 +96,24 @@ plot(plants.insects, col=(kmeans.out$cluster + 1))
 
 Latitude and Fungi
 
+Hierarchical clustering
+
 ```{r}
 latitude.fungi= data.frame(freqs.only$Latitude, freqs.only$Fungi.Freq)
 rownames(latitude.fungi) = frequencies.df$Park.Name
+# Normalize data to use euclidean distance
 latitude.fungi.normal = scale(latitude.fungi)
+hclust.complete = hclust(dist(latitude.fungi.normal), method = "complete")
+hclust.avg = hclust(dist(latitude.fungi.normal), method = "average")
+hclust.single = hclust(dist(latitude.fungi.normal), method = "single")
+plot(hclust.complete, main = "Complete Linkage: Latitude and Fungi", xlab = "", sub = "", cex = .9)
+plot(hclust.avg, main = "Average Linkage: Latitude and Fungi", xlab = "", sub = "", cex = .9)
+plot(hclust.single, main = "Single Linkage: Latitude and Fungi", xlab = "", sub = "", cex = .9)
+```
+
+K-means clustering
+
+```{r}
 kmeans.out = kmeans(latitude.fungi.normal, 3, nstart = 50)
 cluster::clusplot(latitude.fungi.normal, kmeans.out$cluster, color = TRUE, main = "Latitude and Fungi", xlab = "Latitude", ylab = "Fungi")
 legend("bottomright", legend = paste("Cluster", 1:3), pch=1:3, col=1:3)
@@ -126,55 +140,30 @@ summary(cluster.two)
 summary(cluster.three)
 ```
 
+Our set consists primarily of vascular plants, with relatively large proportions of birds and instects as well.
+
 Hierarchical clustering
 
 ```{r}
-latitude.fungi.scaled = scale(latitude.fungi)
-hclust.complete = hclust(dist(latitude.fungi.scaled), method = "complete")
-hclust.avg = hclust(dist(latitude.fungi.scaled), method = "average")
-hclust.single = hclust(dist(latitude.fungi.scaled), method = "single")
-plot(hclust.complete, main = "Complete Linkage: Latitude and Fungi", xlab = "", sub = "", cex = .9)
-plot(hclust.avg, main = "Average Linkage: Latitude and Fungi", xlab = "", sub = "", cex = .9)
-plot(hclust.single, main = "Single Linkage: Latitude and Fungi", xlab = "", sub = "", cex = .9)
+hclust.complete = hclust(dist(vasc.plants.latitude.scale), method = "complete")
+hclust.avg = hclust(dist(vasc.plants.latitude.scale), method = "average")
+hclust.single = hclust(dist(vasc.plants.latitude.scale), method = "single")
+plot(hclust.complete, main = "Complete Linkage: Latitude and Vascular Plants", xlab = "", sub = "", cex = .9)
+plot(hclust.avg, main = "Average Linkage: Latitude and Vascular Plants", xlab = "", sub = "", cex = .9)
+plot(hclust.single, main = "Single Linkage: Latitude and Vascular Plants", xlab = "", sub = "", cex = .9)
 ```
 
-Our set consists primarily of vascular plants, with relatively large proportions of birds and instects as well.
-
-
-We begin with a basic k-means clustering analysis. Lets cluster parks together based on number of fungi species
+k = 4 initially seemed like a reasonable assignment. However, clusters 2 and 3 were very close to one another. k = 5 resulted in more distinct clusters
 
 ```{r}
 vasc.plants.latitude = data.frame(freqs.only$Latitude, freqs.only$Vascular.Plant.Freq)
 rownames(vasc.plants.latitude) = frequencies.df$Park.Name
 set.seed(1)
-kmeans.out = kmeans(vasc.plants.latitude, 3, nstart = 50)
-cluster::clusplot(vasc.plants.latitude, kmeans.out$cluster, main = "Latitude and Vascular Plants", col.p = kmeans.out$cluster, xlab = "Latitude", ylab = "Vascular Plants")
-legend("bottomright", legend = paste("Cluster", 1:3), pch=1:3, col=1:3)
+vasc.plants.latitude.scale = scale(vasc.plants.latitude)
+kmeans.out = kmeans(vasc.plants.latitude.scale, 5, nstart = 50)
+cluster::clusplot(vasc.plants.latitude.scale, kmeans.out$cluster, main = "Latitude and Vascular Plants", col.p = kmeans.out$cluster, xlab = "Latitude", ylab = "Vascular Plants")
+legend("topleft", legend = paste("Cluster", 1:5), pch=1:5, col=1:5)
 
-```
-
-Hierarchical clustering
-
-```{r}
-hclust.complete = hclust(dist(vasc.plants.latitude), method = "complete")
-hclust.avg = hclust(dist(vasc.plants.latitude), method = "average")
-hclust.single = hclust(dist(vasc.plants.latitude), method = "single")
-plot(hclust.complete, main = "Complete Linkage: Latitude and Vascular Plants", xlab = "", sub = "", cex = .9)
-plot(hclust.avg, main = "Average Linkage: Latitude and Vascular Plants", xlab = "", sub = "", cex = .9)
-plot(hclust.single, main = "Single Linkage: Latitude and Vascular Plants", xlab = "", sub = "", cex = .9)
-```
-This example is excessively simple. Let's add a few features.
-
-
-Let's try hierarchical clustering
-
-```{r}
-hclust.complete = hclust(dist(park.vasc.plants.latitude), method = "complete")
-hclust.avg = hclust(dist(park.vasc.plants.latitude$Freq), method = "average")
-hclust.single = hclust(dist(park.vasc.plants.latitude$Freq), method = "single")
-plot(hclust.complete, main = "Complete Linkage", xlab = "", sub = "", cex = .9)
-plot(hclust.avg, main = "Average Linkage", xlab = "", sub = "", cex = .9)
-plot(hclust.single, main = "Single Linkage", xlab = "", sub = "", cex = .9)
 ```
 
 Let's use hierarchical clustering to help us decide how many clusters we'll use on a comparison of vascular and nonvascular plants
@@ -182,58 +171,24 @@ Let's use hierarchical clustering to help us decide how many clusters we'll use 
 ```{r}
 plants = data.frame(freqs.only$Vascular.Plant.Freq, freqs.only$Nonvasc.Plant.Freq)
 rownames(plants) = frequencies.df$Park.Name
-hclust.complete = hclust(dist(plants), method = "complete")
-hclust.avg = hclust(dist(plants), method = "average")
-hclust.single = hclust(dist(plants), method = "single")
+plants.scale = scale(plants)
+hclust.complete = hclust(dist(plants.scale), method = "complete")
+hclust.avg = hclust(dist(plants.scale), method = "average")
+hclust.single = hclust(dist(plants.scale), method = "single")
 plot(hclust.complete, main = "Complete Linkage", xlab = "", sub = "", cex = .9)
 plot(hclust.avg, main = "Average Linkage", xlab = "", sub = "", cex = .9)
 plot(hclust.single, main = "Single Linkage", xlab = "", sub = "", cex = .9)
+counts = sapply(2:6,function(ncl)table(cutree(hclust.complete,ncl)))
 ```
 
-Let's try 4
+Let's try 3
 
 ```{r}
 set.seed(1)
-kmeans.out = kmeans(plants, 3, nstart = 50)
-cluster::clusplot(plants, kmeans.out$cluster, main = "Vascular and Nonvascular Plants", col.p = kmeans.out$cluster, xlab = "Vascular Plants", ylab = "Nonvascular Plants")
+kmeans.out = kmeans(plants.scale, 3, nstart = 50)
+cluster::clusplot(plants.scale, kmeans.out$cluster, main = "Vascular and Nonvascular Plants", col.p = kmeans.out$cluster, xlab = "Vascular Plants", ylab = "Nonvascular Plants")
 legend("bottomright", legend = paste("Cluster", 1:3), pch=1:3, col=1:3)
 
 ```
 
-Compare these results to those including only native species
-```{r}
-native.species = subset(species, Nativeness == "Native")
-plot(native.species$Category)
-```
-
-Note a marked decrease in the observations of fish and insects. Vascular plants still dominate.
-
-Let's view the distribution without vascular plants
-
-```{r}
-native.species.no.vasc = subset(native.species, Category != "Vascular Plant")
-plot(native.species.no.vasc$Category)
-```
-
-We have a high incidence of native birds, insects, reptiles, and fish.
-Biodiversity
-
-```{r}
-native.birds = subset(native.species, Category == "Bird")
-native.birds = subset(native.birds, Occurrence == "Present")
-plot(native.birds$Seasonality)
-bird.seasonality = table(native.birds$Seasonality)
-bird.seasonality = data.frame(bird.seasonality)
-```
-
-Hierarchical Clustering
-
-```{r}
-hclust.complete = hclust(table(native.birds$Seasonality), method = "complete")
-hclust.avg = hclust(dist(native.birds$Seasonality), method = "average")
-hclust.single = hclust(dist(native.birds$Seasonality), method = "single")
-plot(hclust.complete, main = "Complete Linkage", xlab = "", sub = "", cex = .9)
-plot(hclust.avg, main = "Average Linkage", xlab = "", sub = "", cex = .9)
-plot(hclust.single, main = "Single Linkage", xlab = "", sub = "", cex = .9)
-```
 
